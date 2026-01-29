@@ -146,8 +146,8 @@ export async function updateProgram(id: number, prevState: any, formData: FormDa
             console.error('Update Program Error:', error)
             return { error: 'Gagal mengupdate program' }
         }
-    } catch (error) {
-        return { error: 'Terjadi kesalahan' }
+    } catch (error: any) {
+        return { error: error.message || 'Terjadi kesalahan saat update' }
     }
 
     revalidatePath('/dashboard/program')
