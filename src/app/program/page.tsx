@@ -11,10 +11,14 @@ export const metadata: Metadata = {
 
 async function getPrograms() {
     const supabase = await createClient()
-    const { data } = await supabase
+    const { data, error } = await supabase
         .from('program')
         .select('*')
         .order('start_date', { ascending: false })
+
+    if (error) {
+        console.error('Error fetching programs:', error)
+    }
 
     return (data as Program[]) || []
 }
