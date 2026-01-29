@@ -13,6 +13,10 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
+        hostname: "cdn-1.naquinity.web.id",
+      },
+      {
+        protocol: "https",
         hostname: "uwgdsfmjqduehcdcqgle.supabase.co",
       },
     ],
