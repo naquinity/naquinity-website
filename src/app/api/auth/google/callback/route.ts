@@ -15,7 +15,15 @@ export async function GET(request: NextRequest) {
 
     const clientId = process.env.GOOGLE_CLIENT_ID
     const clientSecret = process.env.GOOGLE_CLIENT_SECRET
-    const redirectUri = process.env.GOOGLE_REDIRECT_URI || 'http://localhost:3000/api/auth/google/callback'
+
+    // Dynamic Redirect URI (Must match the one sent in the auth request)
+    let redirectUri = process.env.GOOGLE_REDIRECT_URI
+
+    if (!redirectUri) {
+        const protocol = request.nextUrl.protocol
+        const host = request.nextUrl.host
+        redirectUri = `${protocol}//${host}/api/auth/google/callback`
+    }
 
     // 1. Exchange code for access token
     const tokenResponse = await fetch('https://oauth2.googleapis.com/token', {

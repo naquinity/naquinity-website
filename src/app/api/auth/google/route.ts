@@ -1,8 +1,20 @@
+import { NextRequest, NextResponse } from 'next/server'
 import { redirect } from 'next/navigation'
 
-export async function GET() {
+export async function GET(request: NextRequest) {
     const clientId = process.env.GOOGLE_CLIENT_ID
-    const redirectUri = process.env.GOOGLE_REDIRECT_URI || 'http://localhost:3000/api/auth/google/callback'
+
+    // Dynamic Redirect URI
+    // 1. Priority: Environment Variable
+    // 2. Fallback: Dynamic Origin from Request
+    let redirectUri = process.env.GOOGLE_REDIRECT_URI
+
+    if (!redirectUri) {
+        const protocol = request.nextUrl.protocol
+        const host = request.nextUrl.host
+        redirectUri = `${protocol}//${host}/api/auth/google/callback`
+    }
+
     console.log('[GoogleAuth] Client ID:', clientId)
     console.log('[GoogleAuth] Redirect URI:', redirectUri)
 
@@ -16,5 +28,5 @@ export async function GET() {
     })
 
     // Redirect to Google
-    redirect(`https://accounts.google.com/o/oauth2/v2/auth?${params.toString()}`)
+    return redirect(`https://accounts.google.com/o/oauth2/v2/auth?${params.toString()}`)
 }
