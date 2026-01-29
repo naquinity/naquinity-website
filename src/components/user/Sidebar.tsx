@@ -38,14 +38,14 @@ export default function UserSidebar({
         <>
             {/* Mobile Overlay */}
             <div
-                className={`fixed inset-0 bg-black/50 z-30 lg:hidden ${isOpen ? 'block' : 'hidden'}`}
+                className={`fixed inset-0 bg-black/50 z-45 lg:hidden ${isOpen ? 'block' : 'hidden'}`}
                 onClick={() => setIsOpen(false)}
             ></div>
 
             {/* Sidebar */}
             <aside
                 id="sidebar"
-                className={`fixed top-0 left-0 z-40 h-screen w-64 bg-gradient-to-b from-teal-700 to-teal-800 text-white border-r border-teal-600/20 overflow-y-auto transform transition-transform duration-300 ease-in-out ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
+                className={`fixed top-0 left-0 z-50 h-screen w-64 bg-gradient-to-b from-teal-700 to-teal-800 text-white border-r border-teal-600/20 overflow-y-auto transform transition-transform duration-300 ease-in-out ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
                     }`}
             >
                 <div className="p-6 border-b border-teal-600">

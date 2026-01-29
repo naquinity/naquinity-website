@@ -136,9 +136,16 @@ export default function CreateLoanForm() {
                 <button
                     type="submit"
                     disabled={isPending}
-                    className="flex-1 bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 rounded-lg transition-colors shadow-lg shadow-teal-600/20 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="flex-1 bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 rounded-lg transition-colors shadow-lg shadow-teal-600/20 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                 >
-                    {isPending ? 'Memproses...' : 'Ajukan Pinjaman'}
+                    {isPending ? (
+                        <>
+                            <span className="material-symbols-outlined animate-spin !text-lg">progress_activity</span>
+                            <span>Memproses...</span>
+                        </>
+                    ) : (
+                        "Ajukan Pinjaman"
+                    )}
                 </button>
                 <Link
                     href="/user/dashboard/pinjaman"

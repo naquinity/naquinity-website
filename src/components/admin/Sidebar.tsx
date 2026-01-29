@@ -35,14 +35,14 @@ export default function AdminSidebar({
         <>
             {/* Mobile Overlay */}
             <div
-                className={`fixed inset-0 bg-black/50 z-30 lg:hidden ${isOpen ? 'block' : 'hidden'
+                className={`fixed inset-0 bg-black/50 z-45 lg:hidden ${isOpen ? 'block' : 'hidden'
                     }`}
                 onClick={() => setIsOpen(false)}
             ></div>
 
             {/* Sidebar */}
             <aside
-                className={`fixed lg:static inset-y-0 left-0 z-40 w-64 bg-white border-r border-slate-200 p-4 lg:h-full overflow-y-auto transform transition-transform duration-300 ease-in-out ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
+                className={`fixed lg:static inset-y-0 left-0 z-50 w-64 bg-white border-r border-slate-200 p-4 lg:h-full overflow-y-auto transform transition-transform duration-300 ease-in-out ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
                     }`}
             >
                 <nav className="space-y-1">

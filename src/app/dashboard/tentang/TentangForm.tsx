@@ -5,8 +5,8 @@ import { useActionState, useState, useEffect } from 'react'
 
 export default function TentangForm({ initialTentang, initialMaskot }: { initialTentang: any, initialMaskot: any }) {
     // Separate states for two forms
-    const [tentangState, tentangAction] = useActionState(updateTentangContent, null)
-    const [maskotState, maskotAction] = useActionState(updateMaskot, null)
+    const [tentangState, tentangAction, isTentangPending] = useActionState(updateTentangContent, null)
+    const [maskotState, maskotAction, isMaskotPending] = useActionState(updateMaskot, null)
 
     const [previewImage, setPreviewImage] = useState<string | null>(initialMaskot?.image_url || null)
     const [imageSource, setImageSource] = useState<'upload' | 'url'>('upload')
@@ -60,9 +60,22 @@ export default function TentangForm({ initialTentang, initialMaskot }: { initial
                         <p className="text-xs text-slate-500 mt-2">Konten ini akan ditampilkan di halaman Tentang Kami</p>
                     </div>
                     <div className="flex justify-end">
-                        <button type="submit" className="px-6 py-2.5 bg-primary text-white font-bold rounded-lg hover:bg-primary-hover shadow-lg shadow-primary/20 transition flex items-center gap-2">
-                            <span className="material-symbols-outlined !text-lg">save</span>
-                            Simpan Tentang Kami
+                        <button
+                            type="submit"
+                            disabled={isTentangPending}
+                            className="px-6 py-2.5 bg-primary text-white font-bold rounded-lg hover:bg-primary-hover shadow-lg shadow-primary/20 transition flex items-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+                        >
+                            {isTentangPending ? (
+                                <>
+                                    <span className="material-symbols-outlined animate-spin !text-lg">progress_activity</span>
+                                    <span>Menyimpan...</span>
+                                </>
+                            ) : (
+                                <>
+                                    <span className="material-symbols-outlined !text-lg">save</span>
+                                    <span>Simpan Tentang Kami</span>
+                                </>
+                            )}
                         </button>
                     </div>
                 </form>
@@ -176,9 +189,22 @@ export default function TentangForm({ initialTentang, initialMaskot }: { initial
                     </div>
 
                     <div className="flex justify-end">
-                        <button type="submit" className="px-6 py-2.5 bg-primary text-white font-bold rounded-lg hover:bg-primary-hover shadow-lg shadow-primary/20 transition flex items-center gap-2">
-                            <span className="material-symbols-outlined !text-lg">save</span>
-                            Simpan Maskot
+                        <button
+                            type="submit"
+                            disabled={isMaskotPending}
+                            className="px-6 py-2.5 bg-primary text-white font-bold rounded-lg hover:bg-primary-hover shadow-lg shadow-primary/20 transition flex items-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+                        >
+                            {isMaskotPending ? (
+                                <>
+                                    <span className="material-symbols-outlined animate-spin !text-lg">progress_activity</span>
+                                    <span>Menyimpan...</span>
+                                </>
+                            ) : (
+                                <>
+                                    <span className="material-symbols-outlined !text-lg">save</span>
+                                    <span>Simpan Maskot</span>
+                                </>
+                            )}
                         </button>
                     </div>
                 </form>

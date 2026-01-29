@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { useActionState, useState, useRef } from 'react'
 
 export default function CreatePjKmPage() {
-    const [state, action] = useActionState(createPjKm, null)
+    const [state, action, isPending] = useActionState(createPjKm, null)
 
     // State for Role & Matkul Logic
     const [role, setRole] = useState<'PJ Matkul' | 'KM Kelas' | ''>('')
@@ -234,8 +234,16 @@ export default function CreatePjKmPage() {
 
                     <div className="flex gap-4 pt-6 border-t border-slate-200">
                         <button type="submit"
-                            className="flex-1 bg-primary hover:bg-primary-hover text-white font-bold py-3 rounded-lg transition-all shadow-lg shadow-primary/20">
-                            Simpan Data
+                            disabled={isPending}
+                            className="flex-1 bg-primary hover:bg-primary-hover text-white font-bold py-3 rounded-lg transition-all shadow-lg shadow-primary/20 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed">
+                            {isPending ? (
+                                <>
+                                    <span className="material-symbols-outlined animate-spin !text-lg">progress_activity</span>
+                                    <span>Menyimpan...</span>
+                                </>
+                            ) : (
+                                "Simpan Data"
+                            )}
                         </button>
                         <Link href="/dashboard/pj-km"
                             className="px-6 py-3 border-2 border-slate-300 text-slate-700 font-bold rounded-lg hover:bg-slate-50 transition-colors">

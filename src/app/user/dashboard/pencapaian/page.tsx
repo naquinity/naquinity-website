@@ -16,7 +16,7 @@ export default async function UserPencapaianPage() {
     const { data: pencapaianList } = await supabase
         .from(TABLE_PENCAPAIAN)
         .select('*')
-        .order('date', { ascending: false })
+        .order('created_at', { ascending: false })
 
     return (
         <div className="max-w-7xl mx-auto">
@@ -33,9 +33,9 @@ export default async function UserPencapaianPage() {
                             className="bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition"
                         >
                             <div className="flex items-start gap-6">
-                                {item.person_photo_url || item.image_url ? (
+                                {item.person_photo_url ? (
                                     <img
-                                        src={item.person_photo_url || item.image_url}
+                                        src={item.person_photo_url}
                                         alt={item.title}
                                         className="w-32 h-32 rounded-xl object-cover flex-shrink-0"
                                     />
@@ -50,6 +50,20 @@ export default async function UserPencapaianPage() {
                                     <h3 className="font-bold text-xl text-slate-900 mb-2">
                                         {item.title}
                                     </h3>
+
+                                    {/* Person Info */}
+                                    {(item.person_name || item.person_nim) && (
+                                        <div className="flex items-center gap-2 mb-3 text-sm font-medium text-teal-700 bg-teal-50 w-fit px-3 py-1.5 rounded-lg border border-teal-100">
+                                            <span className="material-symbols-outlined !text-base">person</span>
+                                            <span>{item.person_name}</span>
+                                            {item.person_nim && (
+                                                <span className="text-teal-600/70 border-l border-teal-200 pl-2 ml-1">
+                                                    {item.person_nim}
+                                                </span>
+                                            )}
+                                        </div>
+                                    )}
+
                                     <p className="text-slate-600 mb-3">
                                         {item.description}
                                     </p>
@@ -60,19 +74,14 @@ export default async function UserPencapaianPage() {
                                             </span>
                                             <span>
                                                 {new Date(
-                                                    item.date || item.created_at
-                                                ).toLocaleDateString('en-GB', {
-                                                    day: '2-digit',
-                                                    month: 'short',
+                                                    item.created_at
+                                                ).toLocaleDateString('id-ID', {
+                                                    day: 'numeric',
+                                                    month: 'long',
                                                     year: 'numeric',
                                                 })}
                                             </span>
                                         </div>
-                                        {item.category && (
-                                            <span className="px-3 py-1 bg-teal-100 text-teal-700 rounded-full text-xs font-medium">
-                                                {item.category}
-                                            </span>
-                                        )}
                                     </div>
                                 </div>
                             </div>

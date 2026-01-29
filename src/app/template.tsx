@@ -7,8 +7,9 @@ import { usePathname } from 'next/navigation'
 export default function Template({ children }: { children: React.ReactNode }) {
     const pathname = usePathname()
     const isDashboard = pathname?.startsWith('/dashboard') || pathname?.startsWith('/user/dashboard')
+    const isAuth = pathname?.startsWith('/admin/login') || pathname?.startsWith('/admin/register') || pathname?.startsWith('/user/login') || pathname?.startsWith('/user/register')
 
-    if (isDashboard) {
+    if (isDashboard || isAuth) {
         return (
             <motion.div
                 initial={{ opacity: 0 }}

@@ -7,15 +7,17 @@ import { useActionState } from 'react'
 import { useState } from 'react'
 
 export default function UserRegisterPage() {
-    const [state, action] = useActionState(registerUser, null)
+    const [state, action, isPending] = useActionState(registerUser, null)
     const [showPassword, setShowPassword] = useState(false)
     const [showConfirmPassword, setShowConfirmPassword] = useState(false)
 
     return (
         <div className="bg-[#f0fdfa] text-slate-800 font-display antialiased min-h-screen flex items-center justify-center p-4">
+            {/* ... keeping previous outer structure unchanged ... */}
             <div className="w-full max-w-xl bg-white rounded-2xl shadow-[0_20px_25px_-5px_rgba(0,0,0,0.05),0_10px_10px_-5px_rgba(0,0,0,0.02)] overflow-hidden">
                 <div className="p-8 md:p-12">
                     <div className="text-center mb-8">
+                        {/* ... keeping header content ... */}
                         <div className="mx-auto mb-4">
                             <Image
                                 src="https://tools.naquinity.web.id/images/logo/100kb.png"
@@ -213,13 +215,23 @@ export default function UserRegisterPage() {
                         </div>
 
                         <button
-                            className="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 rounded-lg transition-all shadow-lg shadow-teal-600/20 flex items-center justify-center gap-2 group mt-6"
+                            className="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 rounded-lg transition-all shadow-lg shadow-teal-600/20 flex items-center justify-center gap-2 group mt-6 disabled:opacity-70 disabled:cursor-not-allowed"
                             type="submit"
+                            disabled={isPending}
                         >
-                            <span>Daftar Sekarang</span>
-                            <span className="material-symbols-outlined !text-sm group-hover:translate-x-1 transition-transform">
-                                arrow_forward
-                            </span>
+                            {isPending ? (
+                                <>
+                                    <span className="material-symbols-outlined animate-spin !text-lg">progress_activity</span>
+                                    <span>Memproses...</span>
+                                </>
+                            ) : (
+                                <>
+                                    <span>Daftar Sekarang</span>
+                                    <span className="material-symbols-outlined !text-sm group-hover:translate-x-1 transition-transform">
+                                        arrow_forward
+                                    </span>
+                                </>
+                            )}
                         </button>
                     </form>
 

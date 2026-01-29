@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { useActionState } from 'react'
 
 export default function CreateKeuanganPage() {
-    const [state, action] = useActionState(createTransaction, null)
+    const [state, action, isPending] = useActionState(createTransaction, null)
 
     return (
         <div className="max-w-4xl mx-auto">
@@ -153,9 +153,17 @@ export default function CreateKeuanganPage() {
                     <div className="flex gap-4 pt-4">
                         <button
                             type="submit"
-                            className="flex-1 bg-primary hover:bg-primary-hover text-white font-bold py-3 rounded-lg transition-colors shadow-lg shadow-primary/20"
+                            disabled={isPending}
+                            className="flex-1 bg-primary hover:bg-primary-hover text-white font-bold py-3 rounded-lg transition-colors shadow-lg shadow-primary/20 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                         >
-                            Simpan Transaksi
+                            {isPending ? (
+                                <>
+                                    <span className="material-symbols-outlined animate-spin !text-lg">progress_activity</span>
+                                    <span>Menyimpan...</span>
+                                </>
+                            ) : (
+                                "Simpan Transaksi"
+                            )}
                         </button>
                         <Link
                             href="/dashboard/keuangan"

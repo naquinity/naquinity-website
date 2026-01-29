@@ -3,6 +3,7 @@
 import { logoutAdmin } from '@/actions/auth'
 import Image from 'next/image'
 import { useState } from 'react'
+import { useFormStatus } from 'react-dom'
 
 export default function AdminHeader({
     toggleSidebar,
@@ -66,7 +67,7 @@ export default function AdminHeader({
 
             {/* Logout Modal */}
             {showLogoutModal && (
-                <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+                <div className="fixed inset-0 bg-black/50 z-[100] flex items-center justify-center p-4">
                     <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 transform transition-all">
                         <div className="flex items-center gap-3 mb-4">
                             <div className="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center">
@@ -94,17 +95,32 @@ export default function AdminHeader({
                                 Batal
                             </button>
                             <form action={logoutAdmin} className="flex-1">
-                                <button
-                                    type="submit"
-                                    className="w-full px-4 py-2.5 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 transition text-center"
-                                >
-                                    Ya, Logout
-                                </button>
+                                <LogoutButton />
                             </form>
                         </div>
                     </div>
                 </div>
             )}
         </>
+    )
+}
+
+function LogoutButton() {
+    const { pending } = useFormStatus()
+    return (
+        <button
+            type="submit"
+            disabled={pending}
+            className="w-full px-4 py-2.5 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 transition text-center flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+        >
+            {pending ? (
+                <>
+                    <span className="material-symbols-outlined animate-spin !text-lg">progress_activity</span>
+                    <span>Keluar...</span>
+                </>
+            ) : (
+                'Ya, Logout'
+            )}
+        </button>
     )
 }

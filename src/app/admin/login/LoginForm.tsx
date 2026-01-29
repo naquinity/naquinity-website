@@ -7,14 +7,16 @@ import { useActionState } from 'react'
 import { useState } from 'react'
 
 export default function AdminLoginForm() {
-    const [state, action] = useActionState(loginAdmin, null)
+    const [state, action, isPending] = useActionState(loginAdmin, null)
     const [showPassword, setShowPassword] = useState(false)
 
     return (
         <div className="bg-[#f8fafc] text-slate-800 font-display antialiased min-h-screen flex items-center justify-center p-4 relative z-0">
+            {/* ... keeping previous outer structure unchanged ... */}
             <div className="w-full max-w-4xl bg-white rounded-2xl shadow-[0_20px_25px_-5px_rgba(0,0,0,0.05),0_10px_10px_-5px_rgba(0,0,0,0.02)] overflow-hidden flex flex-col md:flex-row min-h-[550px] relative z-10">
                 {/* Left Side */}
                 <div className="md:w-5/12 bg-primary p-10 flex flex-col justify-center text-white relative overflow-hidden">
+                    {/* ... keeping left side content ... */}
                     <div className="absolute -right-16 -top-16 w-64 h-64 bg-white/5 rounded-full blur-3xl"></div>
                     <div className="absolute -left-16 -bottom-16 w-64 h-64 bg-white/5 rounded-full blur-3xl"></div>
                     <div className="relative z-10">
@@ -121,13 +123,23 @@ export default function AdminLoginForm() {
                         </div>
 
                         <button
-                            className="w-full bg-primary hover:bg-primary-hover text-white font-bold py-3 rounded-lg transition-all shadow-lg shadow-primary/20 flex items-center justify-center gap-2 group"
+                            className="w-full bg-primary hover:bg-primary-hover text-white font-bold py-3 rounded-lg transition-all shadow-lg shadow-primary/20 flex items-center justify-center gap-2 group disabled:opacity-70 disabled:cursor-not-allowed"
                             type="submit"
+                            disabled={isPending}
                         >
-                            <span>Masuk</span>
-                            <span className="material-symbols-outlined !text-sm group-hover:translate-x-1 transition-transform">
-                                arrow_forward
-                            </span>
+                            {isPending ? (
+                                <>
+                                    <span className="material-symbols-outlined animate-spin !text-lg">progress_activity</span>
+                                    <span>Memproses...</span>
+                                </>
+                            ) : (
+                                <>
+                                    <span>Masuk</span>
+                                    <span className="material-symbols-outlined !text-sm group-hover:translate-x-1 transition-transform">
+                                        arrow_forward
+                                    </span>
+                                </>
+                            )}
                         </button>
                     </form>
 

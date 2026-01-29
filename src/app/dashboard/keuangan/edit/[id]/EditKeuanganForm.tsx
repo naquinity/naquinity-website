@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { useActionState } from 'react'
 
 export default function EditKeuanganForm({ transaction }: { transaction: any }) {
-    const [state, action] = useActionState(updateTransaction.bind(null, transaction.id), null)
+    const [state, action, isPending] = useActionState(updateTransaction.bind(null, transaction.id), null)
 
     return (
         <form action={action} className="space-y-6">
@@ -138,9 +138,17 @@ export default function EditKeuanganForm({ transaction }: { transaction: any }) 
             <div className="flex gap-4 pt-4">
                 <button
                     type="submit"
-                    className="flex-1 bg-primary hover:bg-primary-hover text-white font-bold py-3 rounded-lg transition-colors shadow-lg shadow-primary/20"
+                    disabled={isPending}
+                    className="flex-1 bg-primary hover:bg-primary-hover text-white font-bold py-3 rounded-lg transition-colors shadow-lg shadow-primary/20 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                 >
-                    Perbarui Transaksi
+                    {isPending ? (
+                        <>
+                            <span className="material-symbols-outlined animate-spin !text-lg">progress_activity</span>
+                            <span>Menyimpan...</span>
+                        </>
+                    ) : (
+                        "Perbarui Transaksi"
+                    )}
                 </button>
                 <Link
                     href="/dashboard/keuangan"

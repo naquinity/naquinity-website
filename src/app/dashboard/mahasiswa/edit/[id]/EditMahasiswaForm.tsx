@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { useActionState, useState, useRef } from 'react'
 
 export default function EditMahasiswaForm({ mahasiswa }: { mahasiswa: any }) {
-    const [state, action] = useActionState(updateMahasiswa.bind(null, mahasiswa.id), null)
+    const [state, action, isPending] = useActionState(updateMahasiswa.bind(null, mahasiswa.id), null)
     const [uploadMethod, setUploadMethod] = useState<'upload' | 'url'>('upload')
     const [preview, setPreview] = useState<string | null>(mahasiswa.photo_url)
 
@@ -205,10 +205,20 @@ export default function EditMahasiswaForm({ mahasiswa }: { mahasiswa: any }) {
                 </Link>
                 <button
                     type="submit"
-                    className="px-8 py-3 bg-primary text-white font-bold text-sm rounded-lg hover:bg-primary-hover shadow-lg shadow-primary/20 transition flex items-center gap-2 group"
+                    disabled={isPending}
+                    className="px-8 py-3 bg-primary text-white font-bold text-sm rounded-lg hover:bg-primary-hover shadow-lg shadow-primary/20 transition flex items-center gap-2 group disabled:opacity-70 disabled:cursor-not-allowed"
                 >
-                    <span className="material-symbols-outlined">save</span>
-                    Update Mahasiswa
+                    {isPending ? (
+                        <>
+                            <span className="material-symbols-outlined animate-spin !text-lg">progress_activity</span>
+                            <span>Menyimpan...</span>
+                        </>
+                    ) : (
+                        <>
+                            <span className="material-symbols-outlined">save</span>
+                            <span>Update Mahasiswa</span>
+                        </>
+                    )}
                 </button>
             </div>
         </form>

@@ -91,7 +91,7 @@ export default async function HomePage() {
                   >
                     <Image
                       src="https://tools.naquinity.web.id/images/logo/nq.png"
-                      alt="Abstract geometric shapes representing unity and structure"
+                      alt="Naquinity Logo"
                       fill
                       className="object-cover"
                     />
