@@ -70,8 +70,8 @@ export default function Navbar() {
                                 key={link.href}
                                 href={link.href}
                                 className={`transition ${isActive(link.href)
-                                        ? 'text-primary font-bold'
-                                        : 'hover:text-primary'
+                                    ? 'text-primary font-bold'
+                                    : 'hover:text-primary'
                                     }`}
                             >
                                 {link.label}
@@ -96,7 +96,7 @@ export default function Navbar() {
             <div
                 ref={menuRef}
                 className={`${isMobileMenuOpen ? 'block' : 'hidden'
-                    } lg:hidden bg-white border-t border-slate-100`}
+                    } lg:hidden absolute top-full left-0 w-full bg-white border-t border-slate-100 shadow-xl`}
             >
                 <nav className="max-w-[1280px] mx-auto px-4 py-4 space-y-2">
                     {navLinks.map((link) => (
@@ -104,8 +104,8 @@ export default function Navbar() {
                             key={link.href}
                             href={link.href}
                             className={`block px-4 py-3 rounded-lg transition ${isActive(link.href)
-                                    ? 'bg-primary text-white font-bold'
-                                    : 'hover:bg-slate-50'
+                                ? 'bg-primary text-white font-bold'
+                                : 'hover:bg-slate-50'
                                 }`}
                             onClick={() => setIsMobileMenuOpen(false)}
                         >

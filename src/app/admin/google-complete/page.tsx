@@ -122,7 +122,7 @@ export default function GoogleCompletePage() {
                         type="submit"
                         className="w-full bg-primary hover:bg-primary-hover text-white font-bold py-3 rounded-lg transition-all shadow-lg shadow-primary/20 flex items-center justify-center gap-2 group mt-6"
                     >
-                        <span>Lanjutkan ke Dashboard</span>
+                        <span>Lanjutkan</span>
                         <span className="material-symbols-outlined !text-sm group-hover:translate-x-1 transition-transform">
                             arrow_forward
                         </span>

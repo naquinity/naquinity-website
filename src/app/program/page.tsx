@@ -4,6 +4,7 @@ import Image from 'next/image'
 import type { Program } from '@/types/database'
 import { format } from 'date-fns'
 import { Metadata } from 'next'
+import ProgramCard from './ProgramCard'
 
 export const metadata: Metadata = {
     title: 'Program',
@@ -66,56 +67,7 @@ export default async function ProgramPage() {
                     ) : (
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                             {programs.map((program) => (
-                                <div
-                                    key={program.id}
-                                    className="bg-white rounded-2xl border border-slate-200 overflow-hidden hover:shadow-lg hover:border-primary/30 transition-all group"
-                                >
-                                    {program.logo_url ? (
-                                        <div className="aspect-video bg-slate-100 overflow-hidden relative">
-                                            <Image
-                                                src={program.logo_url}
-                                                alt={program.title}
-                                                fill
-                                                className="object-cover group-hover:scale-105 transition-transform duration-300"
-                                            />
-                                        </div>
-                                    ) : (
-                                        <div className="aspect-video bg-gradient-to-br from-primary to-blue-600 flex items-center justify-center">
-                                            <span className="material-symbols-outlined text-6xl text-white">
-                                                calendar_month
-                                            </span>
-                                        </div>
-                                    )}
-
-                                    <div className="p-6">
-                                        <div className="mb-4">
-                                            {program.start_date && (
-                                                <div className="flex items-center gap-2 text-sm text-slate-500 mb-3">
-                                                    <span className="material-symbols-outlined !text-base">
-                                                        calendar_today
-                                                    </span>
-                                                    <span>
-                                                        {format(new Date(program.start_date), 'd MMM yyyy')}
-                                                    </span>
-                                                    {program.end_date &&
-                                                        program.end_date !== program.start_date && (
-                                                            <span>
-                                                                -{' '}
-                                                                {format(new Date(program.end_date), 'd MMM yyyy')}
-                                                            </span>
-                                                        )}
-                                                </div>
-                                            )}
-
-                                            <h3 className="text-xl font-bold text-slate-900 mb-2 group-hover:text-primary transition">
-                                                {program.title}
-                                            </h3>
-                                            <p className="text-slate-600 text-sm line-clamp-3">
-                                                {program.description}
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
+                                <ProgramCard key={program.id} program={program} />
                             ))}
                         </div>
                     )}

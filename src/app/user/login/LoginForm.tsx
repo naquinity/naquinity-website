@@ -119,20 +119,7 @@ export default function UserLoginForm() {
                                 </button>
                             </div>
                         </div>
-                        <div className="flex items-center">
-                            <input
-                                className="h-4 w-4 text-teal-600 focus:ring-teal-600 border-slate-300 rounded"
-                                id="remember-me"
-                                type="checkbox"
-                                name="remember"
-                            />
-                            <label
-                                className="ml-2 block text-sm text-slate-600"
-                                htmlFor="remember-me"
-                            >
-                                Ingat saya di perangkat ini
-                            </label>
-                        </div>
+
                         <button
                             className="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 rounded-lg transition-all shadow-lg shadow-teal-600/20 flex items-center justify-center gap-2 group"
                             type="submit"
