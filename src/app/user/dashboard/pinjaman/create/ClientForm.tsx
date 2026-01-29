@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { submitLoan } from './actions'
 
 export default function CreateLoanForm() {
-    const [state, action, isPending] = useActionState(submitLoan, {})
+    const [state, action, isPending] = useActionState(submitLoan, { error: '' })
 
     return (
         <form action={action} className="space-y-6">
