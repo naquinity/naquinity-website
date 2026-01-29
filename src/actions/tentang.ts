@@ -59,13 +59,18 @@ export async function updateMaskot(prevState: any, formData: FormData) {
     const image = formData.get('image') as File
     const currentImageUrl = formData.get('current_image_url') as string
 
+    const imageSource = formData.get('image_source') as string
+    const imageUrlInput = formData.get('image_url_input') as string
+
     if (!name || !description) {
         return { error: 'Nama dan deskripsi maskot harus diisi' }
     }
 
     let imageUrl = currentImageUrl
 
-    if (image && image.size > 0 && image.name !== 'undefined') {
+    if (imageSource === 'url' && imageUrlInput) {
+        imageUrl = imageUrlInput
+    } else if (imageSource === 'upload' && image && image.size > 0 && image.name !== 'undefined') {
         const fileExt = image.name.split('.').pop()
         const fileName = `maskot_${Date.now()}.${fileExt}`
         const { error: uploadError } = await supabase.storage
