@@ -60,7 +60,7 @@ export default function EditProgramForm({ program }: { program: any }) {
                             name="start_date"
                             defaultValue={program.start_date}
                             className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:ring-2 focus:ring-primary/20 focus:border-primary text-sm"
-                            required
+                        // required - made optional per user request
                         />
                     </div>
 

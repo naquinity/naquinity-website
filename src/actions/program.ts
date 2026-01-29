@@ -35,7 +35,7 @@ export async function createProgram(prevState: any, formData: FormData) {
     // The original PHP likely used file upload.
     // I will inspect the PHP file content (in next steps) to see if it receives a file or string.
 
-    if (!title || !description || !start_date) {
+    if (!title || !description) {
         return { error: 'Data wajib diisi' }
     }
 
@@ -65,7 +65,7 @@ export async function createProgram(prevState: any, formData: FormData) {
         const { error } = await supabase.from(TABLE_PROGRAM).insert({
             title,
             description,
-            start_date,
+            start_date: start_date || null,
             end_date: end_date || null,
             logo_url: imageUrl,
         })
@@ -106,7 +106,7 @@ export async function updateProgram(id: number, prevState: any, formData: FormDa
     const logo_url = formData.get('logo_url') as string
     const image = formData.get('image') as File
 
-    if (!title || !description || !start_date) {
+    if (!title || !description) {
         return { error: 'Data wajib diisi' }
     }
 
@@ -136,7 +136,7 @@ export async function updateProgram(id: number, prevState: any, formData: FormDa
             .update({
                 title,
                 description,
-                start_date,
+                start_date: start_date || null,
                 end_date: end_date || null,
                 logo_url: imageUrl,
             })
