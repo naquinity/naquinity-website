@@ -1,0 +1,106 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #0a2b4d;
+  --color-primary-hover: #061d36;
+  --color-background-light: #f6f7f8;
+  --color-background-dark: #111921;
+  --color-secondary-text: #647587;
+
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+}
+
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  font-size: 20px;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+
+/* Scroll Reveal Animation */
+/* Initial State (Hidden) */
+.scroll-reveal>*>*,
+.scroll-reveal .grid>*,
+.scroll-reveal tbody tr,
+.scroll-reveal .space-y-4>*,
+.scroll-reveal .space-y-6>*,
+.scroll-reveal .flex-col>*,
+.scroll-reveal section>* {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease-out, transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* Fix: Make first section visible immediately to avoid blank load */
+.scroll-reveal>*>*:first-child,
+.scroll-reveal .flex-col>*:first-child,
+.scroll-reveal section:first-of-type>* {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+/* Visible State (Triggered by JS) */
+.scroll-reveal>*>*.is-visible,
+.scroll-reveal .grid>*.is-visible,
+.scroll-reveal tbody tr.is-visible,
+.scroll-reveal .space-y-4>*.is-visible,
+.scroll-reveal .space-y-6>*.is-visible,
+.scroll-reveal .flex-col>*.is-visible,
+.scroll-reveal section>*.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger Delays for Grid/List Items */
+.scroll-reveal>*>*.is-visible:nth-child(1),
+.scroll-reveal .grid>*.is-visible:nth-child(1),
+.scroll-reveal tbody tr.is-visible:nth-child(1),
+.scroll-reveal .flex-col>*.is-visible:nth-child(1) {
+  transition-delay: 0ms;
+}
+
+.scroll-reveal>*>*.is-visible:nth-child(2),
+.scroll-reveal .grid>*.is-visible:nth-child(2),
+.scroll-reveal tbody tr.is-visible:nth-child(2),
+.scroll-reveal .flex-col>*.is-visible:nth-child(2) {
+  transition-delay: 100ms;
+}
+
+.scroll-reveal>*>*.is-visible:nth-child(3),
+.scroll-reveal .grid>*.is-visible:nth-child(3),
+.scroll-reveal tbody tr.is-visible:nth-child(3),
+.scroll-reveal .flex-col>*.is-visible:nth-child(3) {
+  transition-delay: 200ms;
+}
+
+.scroll-reveal>*>*.is-visible:nth-child(4),
+.scroll-reveal .grid>*.is-visible:nth-child(4),
+.scroll-reveal tbody tr.is-visible:nth-child(4),
+.scroll-reveal .flex-col>*.is-visible:nth-child(4) {
+  transition-delay: 300ms;
+}
+
+.scroll-reveal>*>*.is-visible:nth-child(5),
+.scroll-reveal .grid>*.is-visible:nth-child(5),
+.scroll-reveal tbody tr.is-visible:nth-child(5),
+.scroll-reveal .flex-col>*.is-visible:nth-child(5) {
+  transition-delay: 400ms;
+}
+
+.scroll-reveal>*>*.is-visible:nth-child(6),
+.scroll-reveal .grid>*.is-visible:nth-child(6),
+.scroll-reveal tbody tr.is-visible:nth-child(6),
+.scroll-reveal .flex-col>*.is-visible:nth-child(6) {
+  transition-delay: 500ms;
+}
+
+.scroll-reveal>*>*.is-visible:nth-child(n+7),
+.scroll-reveal .grid>*.is-visible:nth-child(n+7),
+.scroll-reveal tbody tr.is-visible:nth-child(n+7),
+.scroll-reveal .flex-col>*.is-visible:nth-child(n+7) {
+  transition-delay: 600ms;
+}
