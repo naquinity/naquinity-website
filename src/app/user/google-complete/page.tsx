@@ -44,16 +44,16 @@ export default async function UserGoogleCompletePage() {
             <div className="hidden lg:block relative bg-slate-900">
                 <div className="absolute inset-0 opacity-40"
                     style={{
-                        backgroundImage: "url('https://cdn-1.naquinity.web.id/angkatan/IMG_6267.JPG')",
+                        backgroundImage: "url('https://cdn-1.naquinity.web.id/angkatan/IMG_7173.JPG')",
                         backgroundSize: 'cover',
                         backgroundPosition: 'center',
                     }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/30 to-slate-900/60" />
                 <div className="relative h-full flex flex-col justify-end p-20 text-white">
-                    <h2 className="text-4xl font-bold mb-4">Selamat Datang di Portal Mahasiswa</h2>
+                    <h2 className="text-4xl font-bold mb-4">Selamat Datang di Dashboard Naquinity</h2>
                     <p className="text-lg text-slate-200">
-                        Bergabung bersama komunitas mahasiswa PSTI 24. Akses informasi, kegiatan, dan pencapaian angkatan dalam satu tempat.
+                        Akses informasi keuangan, kegiatan, dan pencapaian dalam satu tempat.
                     </p>
                 </div>
             </div>

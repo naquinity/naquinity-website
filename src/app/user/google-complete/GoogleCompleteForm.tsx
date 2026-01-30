@@ -63,7 +63,7 @@ export default function GoogleCompleteForm({
             </div>
 
             <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1.5 ml-1">NIM (Opsional)</label>
+                <label className="block text-sm font-medium text-slate-700 mb-1.5 ml-1">NIM</label>
                 <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                         <span className="material-symbols-outlined text-slate-400">badge</span>
@@ -94,7 +94,7 @@ export default function GoogleCompleteForm({
             </div>
 
             <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1.5 ml-1">Buat Password</label>
+                <label className="block text-sm font-medium text-slate-700 mb-1.5 ml-1">Buat Kata Sandi</label>
                 <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                         <span className="material-symbols-outlined text-slate-400">lock</span>
@@ -111,7 +111,7 @@ export default function GoogleCompleteForm({
             </div>
 
             <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1.5 ml-1">Konfirmasi Password</label>
+                <label className="block text-sm font-medium text-slate-700 mb-1.5 ml-1">Konfirmasi Kata Sandi</label>
                 <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                         <span className="material-symbols-outlined text-slate-400">lock_reset</span>
@@ -132,7 +132,7 @@ export default function GoogleCompleteForm({
             </div>
 
             <p className="text-center text-sm text-slate-500 mt-6">
-                Email Anda: <strong>{initialData.email}</strong>
+                Email Anda : <strong>{initialData.email}</strong>
             </p>
         </form>
     )

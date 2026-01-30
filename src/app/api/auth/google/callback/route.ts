@@ -91,20 +91,7 @@ export async function GET(request: NextRequest) {
     if (userType === 'user') {
         const TABLE_USERS = 'users'
 
-        // Strategy 1: Check by Google ID
-        const { data: existingUser } = await supabase
-            .from(TABLE_USERS)
-            .select('*')
-            .eq('google_id', googleId)
-            .single()
-
-        if (existingUser) {
-            await createSession(existingUser.id.toString(), 'user')
-            return redirect('/user/dashboard')
-        }
-
-        // Strategy 2: Check by Email (Account Linking - Optional, usually risky without verification, but convenient)
-        // For security, strict matching.
+        // Strategy: Check by Email (Account Linking / Existing User)
         const { data: userByEmail } = await supabase
             .from(TABLE_USERS)
             .select('*')
@@ -112,17 +99,12 @@ export async function GET(request: NextRequest) {
             .single()
 
         if (userByEmail) {
-            // Link Account
-            await supabase
-                .from(TABLE_USERS)
-                .update({ google_id: googleId })
-                .eq('id', userByEmail.id)
-
+            // Log in directly without updating google_id (since column might not exist)
             await createSession(userByEmail.id.toString(), 'user')
             return redirect('/user/dashboard')
         }
 
-        // Strategy 3: New User -> Redirect to Complete Profile
+        // Strategy: New User -> Redirect to Complete Profile
         const tempUserData = JSON.stringify({ googleId, email, name })
         const cookieStore = await cookies()
         cookieStore.set('google_temp_user', tempUserData, {

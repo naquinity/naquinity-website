@@ -401,7 +401,6 @@ export async function registerUserFromGoogle(prevState: any, formData: FormData)
                 email,
                 nim: nim || null,
                 password_hash: passwordHash,
-                google_id: googleId
             })
             .select()
             .single()
