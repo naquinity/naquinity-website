@@ -141,9 +141,32 @@ export default function UserLoginForm() {
                                 </>
                             )}
                         </button>
+
+                        <div className="relative flex items-center py-2">
+                            <div className="flex-grow border-t border-slate-200"></div>
+                            <span className="flex-shrink-0 mx-4 text-slate-400 text-xs font-bold uppercase">
+                                Atau
+                            </span>
+                            <div className="flex-grow border-t border-slate-200"></div>
+                        </div>
+
+                        <a
+                            href="/api/auth/google?type=user"
+                            className="w-full bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold py-3 rounded-lg transition-all flex items-center justify-center gap-3 relative group"
+                        >
+                            <div className="w-5 h-5 relative">
+                                <Image
+                                    src="https://www.svgrepo.com/show/475656/google-color.svg"
+                                    alt="Google"
+                                    fill
+                                    className="object-contain"
+                                />
+                            </div>
+                            <span>Masuk dengan Google</span>
+                        </a>
                     </form>
 
-                    <div className="mt-10 pt-6 border-t border-slate-100 text-center">
+                    <div className="mt-8 pt-6 border-t border-slate-100 text-center">
                         <p className="text-sm text-slate-500">
                             Belum memiliki akun?{' '}
                             <Link

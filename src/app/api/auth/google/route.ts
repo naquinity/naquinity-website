@@ -31,6 +31,12 @@ export async function GET(request: NextRequest) {
     console.log('[GoogleAuth] Client ID:', clientId)
     console.log('[GoogleAuth] Redirect URI:', redirectUri)
 
+    // Get user type from query params (default to 'admin' for backward compatibility)
+    const type = request.nextUrl.searchParams.get('type') || 'admin'
+
+    // Encode state
+    const state = JSON.stringify({ type })
+
     const params = new URLSearchParams({
         client_id: clientId!,
         redirect_uri: redirectUri,
@@ -38,6 +44,7 @@ export async function GET(request: NextRequest) {
         scope: 'email profile',
         access_type: 'online',
         prompt: 'select_account',
+        state: state
     })
 
     // Redirect to Google

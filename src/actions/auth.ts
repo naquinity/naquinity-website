@@ -348,3 +348,81 @@ export async function registerAdminFromGoogle(prevState: any, formData: FormData
 
     redirect('/dashboard')
 }
+
+export async function registerUserFromGoogle(prevState: any, formData: FormData) {
+    const name = formData.get('name') as string
+    const username = formData.get('username') as string
+    const nim = formData.get('nim') as string
+    const password = formData.get('password') as string
+    const confirmPassword = formData.get('confirm_password') as string
+
+    // Get temp data from cookie
+    const cookieStore = await cookies()
+    const tempCookie = cookieStore.get('google_temp_user')
+
+    if (!tempCookie || !tempCookie.value) {
+        return { error: 'Sesi Google tidak valid. Silakan login ulang.' }
+    }
+
+    const { googleId, email } = JSON.parse(tempCookie.value)
+
+    if (!name || !username || !password) {
+        return { error: 'Semua field harus diisi kecuali NIM' }
+    }
+
+    if (password !== confirmPassword) {
+        return { error: 'Password dan konfirmasi password tidak cocok' }
+    }
+
+    if (password.length < 6) {
+        return { error: 'Password minimal 6 karakter' }
+    }
+
+    try {
+        // Check if username exists
+        const { data: existingUser } = await supabase
+            .from(TABLE_USERS)
+            .select('id')
+            .eq('username', username)
+            .single()
+
+        if (existingUser) {
+            return { error: 'Username sudah digunakan' }
+        }
+
+        const passwordHash = await bcrypt.hash(password, 10)
+
+        // Insert user
+        const { data: newUser, error: insertError } = await supabase
+            .from(TABLE_USERS)
+            .insert({
+                name,
+                username,
+                email,
+                nim: nim || null,
+                password_hash: passwordHash,
+                google_id: googleId
+            })
+            .select()
+            .single()
+
+        if (insertError) {
+            console.error('Registration error:', insertError)
+            return { error: 'Gagal membuat akun' }
+        }
+
+        if (newUser) {
+            // Create session
+            await createSession(newUser.id.toString(), 'user')
+
+            // Clear cookie
+            cookieStore.delete('google_temp_user')
+        }
+
+    } catch (error) {
+        console.error('Registration error:', error)
+        return { error: 'Terjadi kesalahan saat mendaftar' }
+    }
+
+    redirect('/user/dashboard')
+}

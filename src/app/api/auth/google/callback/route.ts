@@ -75,6 +75,66 @@ export async function GET(request: NextRequest) {
         process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
     )
 
+    // Decode State to get type
+    const stateParam = searchParams.get('state')
+    let userType = 'admin'
+    try {
+        if (stateParam) {
+            const state = JSON.parse(stateParam)
+            userType = state.type || 'admin'
+        }
+    } catch (e) {
+        console.error('Failed to parse state', e)
+    }
+
+    // --- USER FLOW ---
+    if (userType === 'user') {
+        const TABLE_USERS = 'users'
+
+        // Strategy 1: Check by Google ID
+        const { data: existingUser } = await supabase
+            .from(TABLE_USERS)
+            .select('*')
+            .eq('google_id', googleId)
+            .single()
+
+        if (existingUser) {
+            await createSession(existingUser.id.toString(), 'user')
+            return redirect('/user/dashboard')
+        }
+
+        // Strategy 2: Check by Email (Account Linking - Optional, usually risky without verification, but convenient)
+        // For security, strict matching.
+        const { data: userByEmail } = await supabase
+            .from(TABLE_USERS)
+            .select('*')
+            .eq('email', email)
+            .single()
+
+        if (userByEmail) {
+            // Link Account
+            await supabase
+                .from(TABLE_USERS)
+                .update({ google_id: googleId })
+                .eq('id', userByEmail.id)
+
+            await createSession(userByEmail.id.toString(), 'user')
+            return redirect('/user/dashboard')
+        }
+
+        // Strategy 3: New User -> Redirect to Complete Profile
+        const tempUserData = JSON.stringify({ googleId, email, name })
+        const cookieStore = await cookies()
+        cookieStore.set('google_temp_user', tempUserData, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            maxAge: 60 * 10 // 10 minutes
+        })
+
+        return redirect('/user/google-complete')
+    }
+
+    // --- ADMIN FLOW (Default) ---
     const TABLE_ADMIN = 'admin_users'
 
     // Strategy 1: Check by Google ID
@@ -112,8 +172,6 @@ export async function GET(request: NextRequest) {
     const tempUserData = JSON.stringify({ googleId, email, name })
 
     // Set cookie compatible with next/headers
-    // Note: middleware or server actions usually handle cookies better, 
-    // but here we can set it on the response or use the cookies() helper if allowed in Route Handlers (yes in App Dir)
     const cookieStore = await cookies()
     cookieStore.set('google_temp', tempUserData, {
         httpOnly: true,
