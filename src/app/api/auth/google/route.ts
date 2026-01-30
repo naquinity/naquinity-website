@@ -10,8 +10,14 @@ export async function GET(request: NextRequest) {
     let redirectUri = process.env.GOOGLE_REDIRECT_URI
 
     if (!redirectUri) {
-        const protocol = request.nextUrl.protocol
+        let protocol = request.nextUrl.protocol
         const host = request.nextUrl.host
+
+        // Force HTTPS on production (Vercel often reports http behind proxy)
+        if (!host.includes('localhost')) {
+            protocol = 'https:'
+        }
+
         redirectUri = `${protocol}//${host}/api/auth/google/callback`
     }
 
