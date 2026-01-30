@@ -65,49 +65,51 @@ export default async function MahasiswaPage() {
                             {mahasiswa.map((mhs) => (
                                 <div
                                     key={mhs.id}
-                                    className="bg-white rounded-2xl border border-slate-200 p-6 hover:shadow-lg hover:border-primary/30 transition-all text-center group"
+                                    className="bg-white rounded-2xl border border-slate-200 overflow-hidden hover:shadow-xl hover:border-primary/30 transition-all group"
                                 >
                                     {mhs.photo_url ? (
-                                        <div className="relative w-24 h-24 mx-auto mb-4">
+                                        <div className="aspect-square bg-slate-100 overflow-hidden relative">
                                             <Image
                                                 src={mhs.photo_url}
                                                 alt={mhs.name}
                                                 fill
-                                                className="object-cover rounded-full border-2 border-slate-200 group-hover:border-primary transition"
+                                                className="object-cover group-hover:scale-105 transition-transform duration-300"
                                             />
                                         </div>
                                     ) : (
-                                        <div className="w-24 h-24 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4 border-2 border-primary/20">
-                                            <span className="material-symbols-outlined text-5xl text-primary">
+                                        <div className="aspect-square bg-gradient-to-br from-primary to-blue-600 flex items-center justify-center">
+                                            <span className="material-symbols-outlined text-8xl text-white">
                                                 person
                                             </span>
                                         </div>
                                     )}
 
-                                    <h3 className="font-bold text-slate-900 mb-1">
-                                        {mhs.name}
-                                    </h3>
-                                    <p className="text-xs text-slate-500 font-mono mb-2">
-                                        {mhs.nim}
-                                    </p>
-
-                                    {mhs.quote && (
-                                        <p className="text-slate-500 text-sm italic text-center mt-3 line-clamp-2">
-                                            "{mhs.quote}"
+                                    <div className="p-6 text-center">
+                                        <h3 className="font-bold text-lg text-slate-900 mb-1">
+                                            {mhs.name}
+                                        </h3>
+                                        <p className="text-xs text-slate-500 font-mono mb-3">
+                                            {mhs.nim}
                                         </p>
-                                    )}
 
-                                    {mhs.email && (
-                                        <a
-                                            href={`mailto:${mhs.email}`}
-                                            className="text-xs text-primary hover:underline flex items-center justify-center gap-1 mt-3"
-                                        >
-                                            <span className="material-symbols-outlined !text-sm">
-                                                email
-                                            </span>
-                                            Email
-                                        </a>
-                                    )}
+                                        {mhs.quote && (
+                                            <p className="text-slate-500 text-sm italic line-clamp-2 mb-4">
+                                                "{mhs.quote}"
+                                            </p>
+                                        )}
+
+                                        {mhs.email && (
+                                            <a
+                                                href={`mailto:${mhs.email}`}
+                                                className="inline-flex items-center gap-1.5 text-xs font-semibold text-primary bg-primary/5 hover:bg-primary/10 px-3 py-1.5 rounded-full transition-colors"
+                                            >
+                                                <span className="material-symbols-outlined !text-sm">
+                                                    email
+                                                </span>
+                                                Email
+                                            </a>
+                                        )}
+                                    </div>
                                 </div>
                             ))}
                         </div>
