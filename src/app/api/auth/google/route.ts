@@ -10,11 +10,18 @@ export async function GET(request: NextRequest) {
     let redirectUri = process.env.GOOGLE_REDIRECT_URI
 
     if (!redirectUri) {
-        let protocol = request.nextUrl.protocol
-        const host = request.nextUrl.host
+        const host = request.headers.get('host') || request.nextUrl.host
+        let protocol = 'http:'
 
-        // Force HTTPS on production (Vercel often reports http behind proxy)
-        if (!host.includes('localhost')) {
+        // Check x-forwarded-proto first (standard proxy header)
+        const forwardedProto = request.headers.get('x-forwarded-proto')
+        if (forwardedProto) {
+            protocol = forwardedProto.endsWith(':') ? forwardedProto : `${forwardedProto}:`
+        }
+
+        // Force HTTPS on production (Vercel/Non-localhost)
+        // This overrides the protocol if we are clearly on a production domain
+        if (host && !host.includes('localhost')) {
             protocol = 'https:'
         }
 
