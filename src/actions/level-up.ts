@@ -52,13 +52,23 @@ export async function createLevelUp(prevState: any, formData: FormData) {
         coverImageUrl = publicData.publicUrl
     }
 
+    // Date Logic
+    const dateOption = formData.get('date_option') as string
+    const customDate = formData.get('custom_date') as string
+
+    let createdAt = new Date().toISOString()
+    if (dateOption === 'custom' && customDate) {
+        createdAt = new Date(customDate).toISOString()
+    }
+
     const { error } = await supabase
         .from(TABLE_LEVELUP)
         .insert({
             title,
             content,
             author_name: authorName,
-            cover_image_url: coverImageUrl
+            cover_image_url: coverImageUrl,
+            created_at: createdAt
         })
 
     if (error) {
@@ -107,16 +117,25 @@ export async function updateLevelUp(id: string, prevState: any, formData: FormDa
         coverImageUrl = publicData.publicUrl
     }
 
+    // Date Logic
+    const dateOption = formData.get('date_option') as string
+    const customDate = formData.get('custom_date') as string
+
+    const updatePayload: any = {
+        title,
+        content,
+        author_name: authorName,
+        cover_image_url: coverImageUrl,
+        updated_at: new Date().toISOString()
+    }
+
+    if (dateOption === 'custom' && customDate) {
+        updatePayload.created_at = new Date(customDate).toISOString()
+    }
 
     const { error } = await supabase
         .from(TABLE_LEVELUP)
-        .update({
-            title,
-            content,
-            author_name: authorName,
-            cover_image_url: coverImageUrl,
-            updated_at: new Date().toISOString()
-        })
+        .update(updatePayload)
         .eq('id', id)
 
     if (error) {

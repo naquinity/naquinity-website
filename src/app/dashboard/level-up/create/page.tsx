@@ -7,6 +7,7 @@ import { useActionState, useState, useRef } from 'react'
 export default function CreateLevelUpPage() {
     const [state, action, isPending] = useActionState(createLevelUp, null)
     const [uploadMethod, setUploadMethod] = useState<'upload' | 'url'>('upload')
+    const [dateOption, setDateOption] = useState<'auto' | 'custom'>('auto')
     const [preview, setPreview] = useState<string | null>(null)
 
     const fileInputRef = useRef<HTMLInputElement>(null)
@@ -116,9 +117,47 @@ export default function CreateLevelUpPage() {
                         </div>
 
                         <div>
-                            <label className="block text-sm font-bold text-slate-700 mb-2">Cover Image</label>
+                            <label className="block text-sm font-bold text-slate-700 mb-2">
+                                Jadwal Publikasi
+                            </label>
+                            <div className="flex gap-4 mb-3">
+                                <label className="flex items-center gap-2 cursor-pointer">
+                                    <input
+                                        type="radio"
+                                        name="date_option"
+                                        value="auto"
+                                        checked={dateOption === 'auto'}
+                                        onChange={() => setDateOption('auto')}
+                                        className="text-primary focus:ring-primary"
+                                    />
+                                    <span className="text-sm text-slate-700">Otomatis</span>
+                                </label>
+                                <label className="flex items-center gap-2 cursor-pointer">
+                                    <input
+                                        type="radio"
+                                        name="date_option"
+                                        value="custom"
+                                        checked={dateOption === 'custom'}
+                                        onChange={() => setDateOption('custom')}
+                                        className="text-primary focus:ring-primary"
+                                    />
+                                    <span className="text-sm text-slate-700">Setel tanggal dan waktu</span>
+                                </label>
+                            </div>
 
-                            {/* Method Selection */}
+                            {dateOption === 'custom' && (
+                                <input
+                                    type="datetime-local"
+                                    name="custom_date"
+                                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition text-sm"
+                                    required
+                                />
+                            )}
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-bold text-slate-700 mb-2">Gambar Cover</label>
+
                             <div className="flex gap-4 mb-3">
                                 <label className="flex items-center gap-2 cursor-pointer">
                                     <input
@@ -144,7 +183,6 @@ export default function CreateLevelUpPage() {
                                 </label>
                             </div>
 
-                            {/* Upload Section */}
                             {uploadMethod === 'upload' && (
                                 <div>
                                     <input
@@ -162,7 +200,6 @@ export default function CreateLevelUpPage() {
                                 </div>
                             )}
 
-                            {/* URL Section */}
                             {uploadMethod === 'url' && (
                                 <div>
                                     <input
@@ -175,12 +212,11 @@ export default function CreateLevelUpPage() {
                                         onChange={handleUrlChange}
                                     />
                                     <p className="text-xs text-slate-500 mt-1">
-                                        Paste URL cover image
+                                        Tempel link gambar cover
                                     </p>
                                 </div>
                             )}
 
-                            {/* Preview */}
                             {preview && (
                                 <div className="mt-3">
                                     <p className="text-xs font-bold text-slate-700 mb-2">

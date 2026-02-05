@@ -7,6 +7,7 @@ import { useActionState, useState, useRef } from 'react'
 export default function EditLevelUpForm({ article }: { article: any }) {
     const [state, action, isPending] = useActionState(updateLevelUp.bind(null, article.id), null)
     const [uploadMethod, setUploadMethod] = useState<'upload' | 'url'>('upload')
+    const [dateOption, setDateOption] = useState<'keep' | 'custom'>('keep')
     const [preview, setPreview] = useState<string | null>(article.cover_image_url)
 
     const fileInputRef = useRef<HTMLInputElement>(null)
@@ -78,6 +79,49 @@ export default function EditLevelUpForm({ article }: { article: any }) {
                             placeholder="Nama penulis artikel"
                             required
                         />
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-bold text-slate-700 mb-2">
+                            Jadwal Publikasi
+                        </label>
+                        <div className="text-sm text-slate-500 mb-3 bg-slate-50 p-3 rounded-lg border border-slate-100">
+                            Tanggal saat ini: <span className="font-semibold text-slate-700">{new Date(article.created_at).toLocaleString('id-ID', { dateStyle: 'long', timeStyle: 'short' })}</span>
+                        </div>
+
+                        <div className="flex gap-4 mb-3">
+                            <label className="flex items-center gap-2 cursor-pointer">
+                                <input
+                                    type="radio"
+                                    name="date_option"
+                                    value="keep"
+                                    checked={dateOption === 'keep'}
+                                    onChange={() => setDateOption('keep')}
+                                    className="text-primary focus:ring-primary"
+                                />
+                                <span className="text-sm text-slate-700">Otomatis</span>
+                            </label>
+                            <label className="flex items-center gap-2 cursor-pointer">
+                                <input
+                                    type="radio"
+                                    name="date_option"
+                                    value="custom"
+                                    checked={dateOption === 'custom'}
+                                    onChange={() => setDateOption('custom')}
+                                    className="text-primary focus:ring-primary"
+                                />
+                                <span className="text-sm text-slate-700">Ubah Tanggal</span>
+                            </label>
+                        </div>
+
+                        {dateOption === 'custom' && (
+                            <input
+                                type="datetime-local"
+                                name="custom_date"
+                                className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition text-sm"
+                                required
+                            />
+                        )}
                     </div>
 
                     <div>
@@ -205,6 +249,6 @@ export default function EditLevelUpForm({ article }: { article: any }) {
                     )}
                 </button>
             </div>
-        </form>
+        </form >
     )
 }
