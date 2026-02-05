@@ -62,7 +62,7 @@ export default async function PjMatkulKmPage({
                 <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-16">
                     {/* Filter */}
                     <div className="mb-8 flex justify-center">
-                        <div className="inline-flex items-center gap-2 bg-white rounded-xl border border-slate-200 p-2 shadow-sm">
+                        <div className="flex flex-wrap justify-center items-center gap-2 bg-white rounded-xl border border-slate-200 p-2 shadow-sm">
                             <span className="text-sm font-bold text-slate-700 px-2">Filter Semester:</span>
                             <a href="/pj-matkul-km?semester=all"
                                 className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${semester === 'all' ? 'bg-primary text-white' : 'text-slate-600 hover:bg-slate-100 hover:text-primary'

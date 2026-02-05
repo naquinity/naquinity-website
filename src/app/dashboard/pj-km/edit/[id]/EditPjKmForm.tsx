@@ -114,18 +114,16 @@ export default function EditPjKmForm({ pjkm }: { pjkm: any }) {
             </div>
 
             {/* Matkul (Conditional) */}
-            {isPjMatkul && (
-                <div>
-                    <label className="block text-sm font-bold text-slate-700 mb-2">
-                        Nama Mata Kuliah <span className="text-red-500">*</span>
-                    </label>
-                    <input type="text" name="matkul" required
-                        defaultValue={pjkm.matkul || ''}
-                        className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none"
-                        placeholder="Contoh: Kalkulus, Pemrograman Web" />
-                    <p className="text-sm text-slate-500 mt-1">Khusus untuk PJ Matkul</p>
-                </div>
-            )}
+            <div>
+                <label className="block text-sm font-bold text-slate-700 mb-2">
+                    Nama Mata Kuliah {role === 'PJ Matkul' && <span className="text-red-500">*</span>}
+                </label>
+                <input type="text" name="matkul" required={role === 'PJ Matkul'}
+                    defaultValue={pjkm.matkul || ''}
+                    className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none"
+                    placeholder="Contoh: Kalkulus, Pemrograman Web" />
+                <p className="text-sm text-slate-500 mt-1">Wajib diisi jika sebagai PJ Matkul</p>
+            </div>
 
             {/* Semester */}
             <div>

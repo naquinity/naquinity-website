@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { createClient } from '@supabase/supabase-js'
 import { PjKmDeleteButton } from './PjKmListClient'
+import FilterPjKm from './FilterPjKm'
 import { redirect } from 'next/navigation'
 
 const supabase = createClient(
@@ -58,52 +59,7 @@ export default async function DashboardPjKmPage({
             </div>
 
             {/* Filters */}
-            <div className="bg-white rounded-xl shadow-md p-6 mb-6">
-                <form className="flex flex-wrap gap-4">
-                    <div>
-                        <label className="block text-sm font-bold text-slate-700 mb-2">Filter Semester</label>
-                        <select
-                            name="semester"
-                            defaultValue={semester}
-                            // Auto-submit on change is handled via client-side usually, but for server component we use a button or client component wrapper. 
-                            // To match PHP 'onchange' behavior simply, we can use a client component for the filter controls.
-                            // For now, let's use a standard submit or just links. But better: Client Component wrapper.
-                            // I will use a simple form with auto-submit script or button. 
-                            // Let's use a simple button "Terapkan" or just Links which is cleaner for NextJS.
-                            className="bg-white px-4 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none min-w-[150px]"
-                        >
-                            <option value="all">Semua Semester</option>
-                            {[...Array(8)].map((_, i) => (
-                                <option key={i + 1} value={i + 1}>Semester {i + 1}</option>
-                            ))}
-                        </select>
-                    </div>
-                    <div>
-                        <label className="block text-sm font-bold text-slate-700 mb-2">Filter Role</label>
-                        <select
-                            name="role"
-                            defaultValue={role}
-                            className="bg-white px-4 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none min-w-[150px]"
-                        >
-                            <option value="all">Semua Role</option>
-                            <option value="PJ Matkul">PJ Matkul</option>
-                            <option value="KM Kelas">KM Kelas</option>
-                        </select>
-                    </div>
-                    <div className="flex items-end">
-                        <button type="submit" className="px-5 py-2.5 bg-slate-800 text-white font-bold rounded-lg hover:bg-slate-700 transition-colors">
-                            Filter
-                        </button>
-                    </div>
-                    {(semester !== 'all' || role !== 'all') && (
-                        <div className="flex items-end">
-                            <Link href="/dashboard/pj-km" className="px-4 py-2 text-primary hover:underline font-medium">
-                                Reset Filter
-                            </Link>
-                        </div>
-                    )}
-                </form>
-            </div>
+            <FilterPjKm />
 
             {/* Table */}
             <div className="bg-white rounded-xl shadow-md overflow-hidden">
