@@ -10,7 +10,7 @@ const supabase = createClient(
 export default async function LevelUpPage() {
     // Fetch data
     const { data: articleList } = await supabase
-        .from('level_up')
+        .from('levelup')
         .select('*')
         .order('created_at', { ascending: false })
 

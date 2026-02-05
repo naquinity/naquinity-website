@@ -25,7 +25,12 @@ export default function ScrollObserver() {
             '.scroll-reveal > * > *, .scroll-reveal .grid > *, .scroll-reveal tbody tr, .scroll-reveal .space-y-4 > *, .scroll-reveal .space-y-6 > *, .scroll-reveal .flex-col > *, .scroll-reveal section > *'
         )
 
-        elements.forEach((el) => observer.observe(el))
+        elements.forEach((el) => {
+            // Exclude header and nav to prevent hydration mismatch on sticky elements
+            if (el.tagName !== 'HEADER' && el.tagName !== 'NAV') {
+                observer.observe(el)
+            }
+        })
 
         return () => observer.disconnect()
     }, []) // Run once on mount (and re-run if path changes? Next.js handles this via Template remounting)

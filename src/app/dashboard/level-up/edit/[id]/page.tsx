@@ -13,7 +13,7 @@ export default async function EditLevelUpPage({ params }: { params: Promise<{ id
 
     // Fetch Data
     const { data: article } = await supabase
-        .from('level_up')
+        .from('levelup')
         .select('*')
         .eq('id', id)
         .single()

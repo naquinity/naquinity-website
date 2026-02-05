@@ -1,6 +1,7 @@
 import PublicLayout from '@/components/layout/PublicLayout'
 import { createClient } from '@/lib/supabase/server'
 import Image from 'next/image'
+import Link from 'next/link'
 import type { LevelUp } from '@/types/database'
 import { Metadata } from 'next'
 
@@ -8,12 +9,21 @@ export const metadata: Metadata = {
     title: 'Level Up',
 }
 
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
+
 async function getLevelUp() {
     const supabase = await createClient()
-    const { data } = await supabase
-        .from('level_up')
+    console.log('Fetching level-up articles...')
+    const { data, error } = await supabase
+        .from('levelup')
         .select('*')
         .order('created_at', { ascending: false })
+
+    if (error) {
+        console.error('Error fetching level-up:', error)
+    }
 
     return (data as LevelUp[]) || []
 }
@@ -98,9 +108,11 @@ export default async function LevelUpPage() {
                                         </div>
 
                                         <div className="pt-4 border-t border-slate-100">
-                                            <span className="text-primary font-semibold text-sm hover:underline cursor-pointer">
-                                                Baca selengkapnya →
-                                            </span>
+                                            <div className="pt-4 border-t border-slate-100">
+                                                <Link href={`/level-up/${article.id}`} className="text-primary font-semibold text-sm hover:underline cursor-pointer">
+                                                    Baca selengkapnya →
+                                                </Link>
+                                            </div>
                                         </div>
                                     </div>
                                 </article>

@@ -10,7 +10,7 @@ const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 )
 
-const TABLE_LEVELUP = 'level_up'
+const TABLE_LEVELUP = 'levelup'
 
 export async function createLevelUp(prevState: any, formData: FormData) {
     const user = await getAdminUser()
