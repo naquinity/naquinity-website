@@ -180,7 +180,7 @@ export default async function HomePage() {
                 <div className="flex justify-between items-end mb-12">
                   <div>
                     <h2 className="text-3xl font-bold text-slate-900 mb-2">Program Kami</h2>
-                    <p className="text-slate-500">Inisiatif unggulan untuk mengembangkan potensi.</p>
+                    <p className="text-slate-500">Program yang diciptakan untuk membangun mahasiswa dan Naquinity</p>
                   </div>
                   <Link className="hidden sm:inline-flex items-center font-bold text-primary hover:underline" href="/program">
                     Lihat semua program
@@ -217,7 +217,7 @@ export default async function HomePage() {
                 <div className="flex flex-col md:flex-row justify-between items-center mb-10 gap-4">
                   <div className="text-center md:text-left">
                     <h2 className="text-3xl font-bold text-slate-900">Daftar Mahasiswa</h2>
-                    <p className="text-slate-500 mt-2">Mari melihat wajah-wajah Naquinitess</p>
+                    <p className="text-slate-500 mt-2">Mari melihat wajah-wajah Naquinity</p>
                   </div>
                 </div>
                 <div className="flex overflow-x-auto hide-scrollbar gap-6 pb-4 -mx-4 px-4 sm:mx-0 sm:px-0 scrollbar-hide">
