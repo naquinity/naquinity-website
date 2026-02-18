@@ -217,7 +217,7 @@ export default async function HomePage() {
                 <div className="flex flex-col md:flex-row justify-between items-center mb-10 gap-4">
                   <div className="text-center md:text-left">
                     <h2 className="text-3xl font-bold text-slate-900">Daftar Mahasiswa</h2>
-                    <p className="text-slate-500 mt-2">Bertemu dengan wajah-wajah di balik komunitas ini.</p>
+                    <p className="text-slate-500 mt-2">Mari melihat wajah-wajah Naquinitess</p>
                   </div>
                 </div>
                 <div className="flex overflow-x-auto hide-scrollbar gap-6 pb-4 -mx-4 px-4 sm:mx-0 sm:px-0 scrollbar-hide">
