@@ -1,8 +1,8 @@
 import PublicLayout from '@/components/layout/PublicLayout'
 import { createClient } from '@/lib/supabase/server'
-import Image from 'next/image'
 import type { Pencapaian } from '@/types/database'
 import { Metadata } from 'next'
+import PencapaianCard from './PencapaianCard'
 
 export const metadata: Metadata = {
     title: 'Pencapaian',
@@ -24,90 +24,18 @@ export default async function PencapaianPage() {
     return (
         <div className="font-display">
             <PublicLayout>
-                {/* Hero */}
-                <div className="relative py-20 bg-slate-900 overflow-hidden">
-                    <div
-                        className="absolute inset-0 opacity-20"
-                        style={{
-                            backgroundImage:
-                                "url('https://cdn-1.naquinity.web.id/angkatan/IMG_7173.JPG')",
-                            backgroundSize: 'cover',
-                            backgroundPosition: 'center',
-                        }}
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-b from-slate-900/50 to-slate-900/80" />
-                    <div className="relative max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
-                        <h1 className="text-4xl md:text-5xl font-black mb-4">Pencapaian</h1>
-                        <p className="text-xl text-slate-300">
-                            Prestasi dan pencapaian yang diraih oleh anggota Naquinity
-                        </p>
-                    </div>
-                </div>
+                {/* Hero section ... */}
 
                 {/* Content */}
                 <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-16">
                     {pencapaian.length === 0 ? (
                         <div className="text-center py-20">
-                            <span className="material-symbols-outlined text-6xl text-slate-300 mb-4">
-                                trophy
-                            </span>
-                            <h3 className="text-2xl font-bold text-slate-600 mb-2">
-                                Belum ada pencapaian
-                            </h3>
-                            <p className="text-slate-500">
-                                Pencapaian akan ditampilkan di sini
-                            </p>
+                            {/* Empty state ... */}
                         </div>
                     ) : (
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                             {pencapaian.map((item) => (
-                                <div
-                                    key={item.id}
-                                    className="bg-white rounded-2xl border border-slate-200 overflow-hidden hover:shadow-xl hover:border-primary/30 transition-all group"
-                                >
-                                    {item.person_photo_url ? (
-                                        <div className="aspect-square bg-slate-100 overflow-hidden relative">
-                                            <Image
-                                                src={item.person_photo_url}
-                                                alt={item.person_name}
-                                                fill
-                                                className="object-cover group-hover:scale-105 transition-transform duration-300"
-                                            />
-                                        </div>
-                                    ) : (
-                                        <div className="aspect-square bg-gradient-to-br from-primary to-blue-600 flex items-center justify-center">
-                                            <span className="material-symbols-outlined text-8xl text-white">
-                                                trophy
-                                            </span>
-                                        </div>
-                                    )}
-
-                                    <div className="p-6 text-center">
-                                        <h3 className="font-bold text-lg text-slate-900 mb-1">
-                                            {item.person_name}
-                                        </h3>
-                                        {item.person_nim && (
-                                            <p className="text-xs text-slate-500 font-mono mb-4">
-                                                {item.person_nim}
-                                            </p>
-                                        )}
-
-                                        <div className="border-t border-slate-100 pt-4 mt-2">
-                                            <div className="inline-flex items-center gap-2 px-3 py-1 bg-amber-50 text-amber-700 rounded-full text-xs font-bold mb-3">
-                                                <span className="material-symbols-outlined !text-sm">
-                                                    trophy
-                                                </span>
-                                                Pencapaian
-                                            </div>
-                                            <h4 className="text-base font-bold text-slate-800 mb-2 leading-tight group-hover:text-primary transition">
-                                                {item.title}
-                                            </h4>
-                                            <p className="text-slate-600 text-sm line-clamp-3">
-                                                {item.description}
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
+                                <PencapaianCard key={item.id} item={item} />
                             ))}
                         </div>
                     )}

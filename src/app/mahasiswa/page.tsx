@@ -1,48 +1,71 @@
 import PublicLayout from '@/components/layout/PublicLayout'
 import { createClient } from '@/lib/supabase/server'
-import Image from 'next/image'
+
 import type { Mahasiswa } from '@/types/database'
+import MahasiswaCard from './MahasiswaCard'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
     title: 'Mahasiswa',
 }
 
-async function getMahasiswa() {
+const ITEMS_PER_PAGE = 20
+
+import { Suspense } from 'react'
+import SearchInput from '@/components/ui/SearchInput'
+
+// ... imports
+
+async function getMahasiswa(page: number = 1) {
     const supabase = await createClient()
+
+    // Get total count
+    const { count } = await supabase
+        .from('mahasiswa')
+        .select('*', { count: 'exact', head: true })
+
+    // Get paginated data
     const { data } = await supabase
         .from('mahasiswa')
         .select('*')
         .order('name', { ascending: true })
+        .range((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE - 1)
 
-    return (data as Mahasiswa[]) || []
+    return {
+        data: (data as Mahasiswa[]) || [],
+        totalPages: Math.ceil((count || 0) / ITEMS_PER_PAGE),
+        currentPage: page,
+        totalItems: count || 0
+    }
 }
 
-export default async function MahasiswaPage() {
-    const mahasiswa = await getMahasiswa()
+export default async function MahasiswaPage({
+    searchParams,
+}: {
+    searchParams: Promise<{ page?: string }>
+}) {
+    const params = await searchParams
+    const page = Number(params?.page) || 1
+    const { data: mahasiswa, totalPages, currentPage } = await getMahasiswa(page)
 
     return (
         <div className="font-display">
             <PublicLayout>
                 {/* Hero */}
                 <div className="relative py-20 bg-slate-900 overflow-hidden">
-                    <div
-                        className="absolute inset-0 opacity-20"
-                        style={{
-                            backgroundImage:
-                                "url('https://cdn-1.naquinity.web.id/angkatan/IMG_6267.JPG')",
-                            backgroundSize: 'cover',
-                            backgroundPosition: 'center',
-                        }}
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-b from-slate-900/50 to-slate-900/80" />
+                    {/* ... hero content ... */}
                     <div className="relative max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
                         <h1 className="text-4xl md:text-5xl font-black mb-4">
                             Anggota Naquinity
                         </h1>
-                        <p className="text-xl text-slate-300">
+                        <p className="text-xl text-slate-300 mb-8">
                             Berikut ini adalah daftar mahasiswa PSTI 24
                         </p>
+
+                        {/* Search Input */}
+                        <Suspense fallback={<div className="w-full max-w-md mx-auto h-12 bg-white/10 rounded-full animate-pulse" />}>
+                            <SearchInput placeholder="Cari berdasarkan nama atau NIM..." />
+                        </Suspense>
                     </div>
                 </div>
 
@@ -51,68 +74,72 @@ export default async function MahasiswaPage() {
                     {mahasiswa.length === 0 ? (
                         <div className="text-center py-20">
                             <span className="material-symbols-outlined text-6xl text-slate-300 mb-4">
-                                groups
+                                search_off
                             </span>
                             <h3 className="text-2xl font-bold text-slate-600 mb-2">
-                                Belum ada mahasiswa
+                                Data tidak ditemukan
                             </h3>
                             <p className="text-slate-500">
-                                Data mahasiswa akan ditampilkan di sini
+                                Coba cari dengan kata kunci lain
                             </p>
                         </div>
                     ) : (
-                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                            {mahasiswa.map((mhs) => (
-                                <div
-                                    key={mhs.id}
-                                    className="bg-white rounded-2xl border border-slate-200 overflow-hidden hover:shadow-xl hover:border-primary/30 transition-all group"
-                                >
-                                    {mhs.photo_url ? (
-                                        <div className="aspect-square bg-slate-100 overflow-hidden relative">
-                                            <Image
-                                                src={mhs.photo_url}
-                                                alt={mhs.name}
-                                                fill
-                                                className="object-cover group-hover:scale-105 transition-transform duration-300"
-                                            />
-                                        </div>
+                        <>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-12">
+                                {mahasiswa.map((mhs) => (
+                                    <MahasiswaCard key={mhs.id} mhs={mhs} />
+                                ))}
+                            </div>
+
+                            {/* Pagination Controls */}
+                            {totalPages > 1 && (
+                                <div className="flex justify-center items-center gap-2 mt-12">
+                                    {/* Previous Button */}
+                                    {currentPage > 1 ? (
+                                        <a
+                                            href={`/mahasiswa?page=${currentPage - 1}`}
+                                            className="px-3 py-1 text-sm text-primary hover:underline font-medium"
+                                        >
+                                            Sebelumnya
+                                        </a>
                                     ) : (
-                                        <div className="aspect-square bg-gradient-to-br from-primary to-blue-600 flex items-center justify-center">
-                                            <span className="material-symbols-outlined text-8xl text-white">
-                                                person
-                                            </span>
-                                        </div>
+                                        <span className="px-3 py-1 text-sm text-slate-400 font-medium cursor-default">
+                                            Sebelumnya
+                                        </span>
                                     )}
 
-                                    <div className="p-6 text-center">
-                                        <h3 className="font-bold text-lg text-slate-900 mb-1">
-                                            {mhs.name}
-                                        </h3>
-                                        <p className="text-xs text-slate-500 font-mono mb-3">
-                                            {mhs.nim}
-                                        </p>
-
-                                        {mhs.quote && (
-                                            <p className="text-slate-500 text-sm italic line-clamp-2 mb-4">
-                                                "{mhs.quote}"
-                                            </p>
-                                        )}
-
-                                        {mhs.email && (
+                                    {/* Page Numbers */}
+                                    <div className="flex items-center gap-1">
+                                        {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
                                             <a
-                                                href={`mailto:${mhs.email}`}
-                                                className="inline-flex items-center gap-1.5 text-xs font-semibold text-primary bg-primary/5 hover:bg-primary/10 px-3 py-1.5 rounded-full transition-colors"
+                                                key={pageNum}
+                                                href={`/mahasiswa?page=${pageNum}`}
+                                                className={`w-8 h-8 flex items-center justify-center rounded-full text-sm font-bold transition-all ${currentPage === pageNum
+                                                    ? 'bg-primary text-white'
+                                                    : 'text-primary hover:bg-primary/10'
+                                                    }`}
                                             >
-                                                <span className="material-symbols-outlined !text-sm">
-                                                    email
-                                                </span>
-                                                Email
+                                                {pageNum}
                                             </a>
-                                        )}
+                                        ))}
                                     </div>
+
+                                    {/* Next Button */}
+                                    {currentPage < totalPages ? (
+                                        <a
+                                            href={`/mahasiswa?page=${currentPage + 1}`}
+                                            className="px-3 py-1 text-sm text-primary hover:underline font-medium"
+                                        >
+                                            Berikutnya
+                                        </a>
+                                    ) : (
+                                        <span className="px-3 py-1 text-sm text-slate-400 font-medium cursor-default">
+                                            Berikutnya
+                                        </span>
+                                    )}
                                 </div>
-                            ))}
-                        </div>
+                            )}
+                        </>
                     )}
                 </div>
             </PublicLayout>

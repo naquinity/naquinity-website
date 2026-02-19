@@ -1,8 +1,8 @@
 import PublicLayout from '@/components/layout/PublicLayout'
 import { createClient } from '@/lib/supabase/server'
-import Image from 'next/image'
 import type { Pengurus } from '@/types/database'
 import { Metadata } from 'next'
+import PengurusCard from './PengurusCard'
 
 export const metadata: Metadata = {
     title: 'Pengurus',
@@ -61,41 +61,7 @@ export default async function PengurusPage() {
                     ) : (
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
                             {pengurus.map((p) => (
-                                <div
-                                    key={p.id}
-                                    className="bg-white rounded-2xl border border-slate-200 overflow-hidden hover:shadow-xl hover:border-primary/30 transition-all group"
-                                >
-                                    {p.photo_url ? (
-                                        <div className="aspect-square bg-slate-100 overflow-hidden relative">
-                                            <Image
-                                                src={p.photo_url}
-                                                alt={p.name}
-                                                fill
-                                                className="object-cover group-hover:scale-105 transition-transform duration-300"
-                                            />
-                                        </div>
-                                    ) : (
-                                        <div className="aspect-square bg-gradient-to-br from-primary to-blue-600 flex items-center justify-center">
-                                            <span className="material-symbols-outlined text-8xl text-white">
-                                                person
-                                            </span>
-                                        </div>
-                                    )}
-
-                                    <div className="p-6 text-center">
-                                        <div className="inline-block px-3 py-1 bg-primary/10 text-primary text-xs font-bold rounded-full mb-3">
-                                            {p.position}
-                                        </div>
-                                        <h3 className="font-bold text-lg text-slate-900 mb-1">
-                                            {p.name}
-                                        </h3>
-                                        {p.nim && (
-                                            <p className="text-xs text-slate-500 font-mono">
-                                                {p.nim}
-                                            </p>
-                                        )}
-                                    </div>
-                                </div>
+                                <PengurusCard key={p.id} p={p} />
                             ))}
                         </div>
                     )}
