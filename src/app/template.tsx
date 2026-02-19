@@ -10,8 +10,9 @@ export default function Template({ children }: { children: React.ReactNode }) {
     const isAuth = pathname?.startsWith('/admin/login') || pathname?.startsWith('/admin/register') || pathname?.startsWith('/user/login') || pathname?.startsWith('/user/register')
     const isLevelUp = pathname?.startsWith('/level-up')
     const isMahasiswa = pathname?.startsWith('/mahasiswa')
+    const isPjKm = pathname?.startsWith('/pj-matkul-km')
 
-    if (isDashboard || isAuth || isLevelUp || isMahasiswa) {
+    if (isDashboard || isAuth || isLevelUp || isMahasiswa || isPjKm) {
         return <>{children}</>
     }
 
