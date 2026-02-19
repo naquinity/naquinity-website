@@ -8,9 +8,27 @@ export const metadata: Metadata = {
     title: 'PJ Matkul & KM',
 }
 
-async function getPjKm(semester: string) {
+import Pagination from '@/components/ui/Pagination'
+
+const ITEMS_PER_PAGE = 20
+
+async function getPjKm(semester: string, page: number = 1) {
     const supabase = await createClient()
+
+    // Base query
     let query = supabase
+        .from('pj_km')
+        .select('*', { count: 'exact' })
+
+    if (semester !== 'all') {
+        query = query.eq('semester', parseInt(semester))
+    }
+
+    // Get count first
+    const { count } = await query
+
+    // Get paginated data
+    let dataQuery = supabase
         .from('pj_km')
         .select('*')
         .order('semester', { ascending: true })
@@ -18,20 +36,32 @@ async function getPjKm(semester: string) {
         .order('name', { ascending: true })
 
     if (semester !== 'all') {
-        query = query.eq('semester', parseInt(semester))
+        dataQuery = dataQuery.eq('semester', parseInt(semester))
     }
 
-    const { data } = await query
-    return (data as PjKm[]) || []
+    const { data } = await dataQuery.range((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE - 1)
+
+    return {
+        data: (data as PjKm[]) || [],
+        totalPages: Math.ceil((count || 0) / ITEMS_PER_PAGE),
+        currentPage: page,
+        totalItems: count || 0
+    }
 }
 
 export default async function PjMatkulKmPage({
     searchParams,
 }: {
-    searchParams: Promise<{ semester?: string }>
+    searchParams: Promise<{ semester?: string; page?: string }>
 }) {
-    const { semester = 'all' } = await searchParams
-    const pjKmList = await getPjKm(semester)
+    const { semester, page = '1' } = await searchParams
+    const currentPage = parseInt(page)
+    const selectedSemester = semester ? parseInt(semester) : null
+
+    // Only fetch data if a specific semester is selected
+    const { data: pjKmList, totalPages } = selectedSemester
+        ? await getPjKm(semester!, currentPage)
+        : { data: [], totalPages: 0 }
 
     return (
         <div className="font-display">
@@ -63,17 +93,12 @@ export default async function PjMatkulKmPage({
                     {/* Filter */}
                     <div className="mb-8 flex justify-center">
                         <div className="flex flex-wrap justify-center items-center gap-2 bg-white rounded-xl border border-slate-200 p-2 shadow-sm">
-                            <span className="text-sm font-bold text-slate-700 px-2">Filter Semester:</span>
-                            <a href="/pj-matkul-km?semester=all"
-                                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${semester === 'all' ? 'bg-primary text-white' : 'text-slate-600 hover:bg-slate-100 hover:text-primary'
-                                    }`}>
-                                Semua
-                            </a>
+                            <span className="text-sm font-bold text-slate-700 px-2">Pilih Semester:</span>
                             {[1, 2, 3, 4, 5, 6, 7, 8].map((sem) => (
                                 <a
                                     key={sem}
                                     href={`/pj-matkul-km?semester=${sem}`}
-                                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${parseInt(semester) === sem ? 'bg-primary text-white' : 'text-slate-600 hover:bg-slate-100 hover:text-primary'
+                                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${selectedSemester === sem ? 'bg-primary text-white' : 'text-slate-600 hover:bg-slate-100 hover:text-primary'
                                         }`}
                                 >
                                     Sem {sem}
@@ -82,7 +107,21 @@ export default async function PjMatkulKmPage({
                         </div>
                     </div>
 
-                    {pjKmList.length === 0 ? (
+                    {!selectedSemester ? (
+                        <div className="text-center py-20 animate-in fade-in zoom-in-95 duration-500">
+                            <div className="inline-flex items-center justify-center w-24 h-24 rounded-full bg-primary/10 mb-6">
+                                <span className="material-symbols-outlined text-5xl text-primary">
+                                    library_books
+                                </span>
+                            </div>
+                            <h3 className="text-2xl font-bold text-slate-800 mb-3">
+                                Silakan Pilih Semester
+                            </h3>
+                            <p className="text-slate-500 max-w-md mx-auto text-lg">
+                                Pilih salah satu semester di atas untuk melihat daftar PJ Matkul dan KM Kelas.
+                            </p>
+                        </div>
+                    ) : pjKmList.length === 0 ? (
                         <div className="text-center py-20">
                             <span className="material-symbols-outlined text-6xl text-slate-300 mb-4">
                                 school
@@ -91,15 +130,24 @@ export default async function PjMatkulKmPage({
                                 Belum ada data
                             </h3>
                             <p className="text-slate-500">
-                                Data PJ Matkul dan KM Kelas akan ditampilkan di sini
+                                Data PJ Matkul dan KM Kelas untuk semester ini belum tersedia.
                             </p>
                         </div>
                     ) : (
-                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                            {pjKmList.map((item) => (
-                                <PjKmCard key={item.id} item={item} />
-                            ))}
-                        </div>
+                        <>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-12 animate-in fade-in duration-500">
+                                {pjKmList.map((item) => (
+                                    <PjKmCard key={item.id} item={item} />
+                                ))}
+                            </div>
+
+                            <Pagination
+                                currentPage={currentPage}
+                                totalPages={totalPages}
+                                baseUrl="/pj-matkul-km"
+                                searchParams={{ semester: String(selectedSemester) }}
+                            />
+                        </>
                     )}
                 </div>
             </PublicLayout>
