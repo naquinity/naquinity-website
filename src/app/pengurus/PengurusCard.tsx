@@ -16,6 +16,7 @@ export default function PengurusCard({ p }: { p: Pengurus }) {
                         className="object-cover group-hover:scale-105 transition-transform duration-300"
                         onContextMenu={(e) => e.preventDefault()}
                         draggable={false}
+                        unoptimized
                     />
                     {/* Transparent overlay for extra protection */}
                     <div

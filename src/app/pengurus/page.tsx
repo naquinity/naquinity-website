@@ -13,7 +13,7 @@ async function getPengurus() {
     const { data } = await supabase
         .from('pengurus')
         .select('*')
-        .order('created_at', { ascending: false }) // Changed to descending
+        .order('name', { ascending: true })
 
     return (data as Pengurus[]) || []
 }
