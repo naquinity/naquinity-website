@@ -75,7 +75,7 @@ export default function Footer() {
                     </div>
 
                     <div>
-                        <h4 className="font-bold text-slate-900 mb-6">Komunitas</h4>
+                        <h4 className="font-bold text-slate-900 mb-6">Oleh Kami</h4>
                         <ul className="space-y-3 text-sm text-slate-500">
                             <li>
                                 <Link
