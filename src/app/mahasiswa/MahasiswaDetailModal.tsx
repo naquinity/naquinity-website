@@ -51,7 +51,7 @@ export default function MahasiswaDetailModal({ isOpen, onClose, mhs }: Mahasiswa
                     {/* Left Side: Details */}
                     <div className="relative flex-1 p-8 flex flex-col justify-center order-2 md:order-1 bg-white overflow-hidden">
                         {/* Background Logo Silhouette */}
-                        <div className="absolute -left-12 -bottom-12 w-80 h-80 opacity-20 pointer-events-none select-none grayscale-[0.5]">
+                        <div className="absolute -left-12 -bottom-12 w-80 h-80 opacity-[0.15] pointer-events-none select-none grayscale-[0.5]">
                             <Image
                                 src="https://tools.naquinity.web.id/images/logo/100kb.png"
                                 alt="Logo Silhouette"
