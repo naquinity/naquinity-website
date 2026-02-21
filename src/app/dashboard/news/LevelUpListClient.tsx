@@ -1,6 +1,6 @@
 'use client'
 
-import { deleteLevelUp } from '@/actions/level-up'
+import { deleteLevelUp } from '@/actions/news'
 
 import { useState } from 'react'
 import DeleteModal from '@/components/admin/DeleteModal'

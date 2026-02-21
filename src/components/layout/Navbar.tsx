@@ -10,7 +10,7 @@ const navLinks = [
     { href: '/tentang', label: 'Tentang Kami' },
     { href: '/program', label: 'Program' },
     { href: '/pencapaian', label: 'Pencapaian' },
-    { href: '/level-up', label: 'Level-up' },
+    { href: '/news', label: 'Berita' },
     { href: '/mahasiswa', label: 'Mahasiswa' },
     { href: '/pengurus', label: 'Pengurus' },
     { href: '/pj-matkul-km', label: 'PJ Matkul-KM' },

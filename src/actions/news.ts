@@ -61,10 +61,16 @@ export async function createLevelUp(prevState: any, formData: FormData) {
         createdAt = new Date(customDate).toISOString()
     }
 
+    const slug = title
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/(^-|-$)+/g, '')
+
     const { error } = await supabase
         .from(TABLE_LEVELUP)
         .insert({
             title,
+            slug,
             content,
             author_name: authorName,
             cover_image_url: coverImageUrl,
@@ -76,8 +82,8 @@ export async function createLevelUp(prevState: any, formData: FormData) {
         return { error: 'Gagal menambahkan artikel' }
     }
 
-    revalidatePath('/dashboard/level-up')
-    redirect('/dashboard/level-up')
+    revalidatePath('/dashboard/news')
+    redirect('/dashboard/news')
 }
 
 export async function updateLevelUp(id: string, prevState: any, formData: FormData) {
@@ -121,8 +127,14 @@ export async function updateLevelUp(id: string, prevState: any, formData: FormDa
     const dateOption = formData.get('date_option') as string
     const customDate = formData.get('custom_date') as string
 
+    const slug = title
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/(^-|-$)+/g, '')
+
     const updatePayload: any = {
         title,
+        slug,
         content,
         author_name: authorName,
         cover_image_url: coverImageUrl,
@@ -143,9 +155,9 @@ export async function updateLevelUp(id: string, prevState: any, formData: FormDa
         return { error: 'Gagal memperbarui artikel' }
     }
 
-    revalidatePath('/dashboard/level-up')
-    revalidatePath(`/dashboard/level-up/edit/${id}`)
-    redirect('/dashboard/level-up')
+    revalidatePath('/dashboard/news')
+    revalidatePath(`/dashboard/news/edit/${slug}`)
+    redirect('/dashboard/news')
 }
 
 export async function deleteLevelUp(id: string) {
@@ -161,6 +173,6 @@ export async function deleteLevelUp(id: string) {
         return { error: 'Gagal menghapus artikel' }
     }
 
-    revalidatePath('/dashboard/level-up')
+    revalidatePath('/dashboard/news')
     return { success: 'Artikel berhasil dihapus' }
 }

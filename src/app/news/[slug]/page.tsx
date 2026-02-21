@@ -10,15 +10,15 @@ import ShareButtons from '@/components/ui/ShareButtons'
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
 
-type Params = Promise<{ id: string }>
+type Params = Promise<{ slug: string }>
 
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
-    const { id } = await params
+    const { slug } = await params
     const supabase = await createClient()
     const { data: article } = await supabase
         .from('levelup')
         .select('title')
-        .eq('id', id)
+        .eq('slug', slug)
         .single()
 
     return {
@@ -27,13 +27,13 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
 }
 
 export default async function LevelUpDetailPage({ params }: { params: Params }) {
-    const { id } = await params
+    const { slug } = await params
     const supabase = await createClient()
 
     const { data: article, error } = await supabase
         .from('levelup')
         .select('*')
-        .eq('id', id)
+        .eq('slug', slug)
         .single()
 
     if (error) {
@@ -54,7 +54,7 @@ export default async function LevelUpDetailPage({ params }: { params: Params }) 
                     <div className="flex items-center gap-2 text-sm text-slate-500 mb-8">
                         <Link href="/" className="hover:text-primary transition-colors">Beranda</Link>
                         <span className="material-symbols-outlined !text-sm">chevron_right</span>
-                        <Link href="/level-up" className="hover:text-primary transition-colors">Level-up</Link>
+                        <Link href="/news" className="hover:text-primary transition-colors">News</Link>
                         <span className="material-symbols-outlined !text-sm">chevron_right</span>
                         <span className="font-semibold text-slate-800 line-clamp-1">{levelUpArticle.title}</span>
                     </div>
@@ -112,11 +112,11 @@ export default async function LevelUpDetailPage({ params }: { params: Params }) 
                         {/* Back Button */}
                         <div className="mt-12 pt-8 border-t border-slate-200">
                             <Link
-                                href="/level-up"
+                                href="/news"
                                 className="inline-flex items-center gap-2 text-primary font-bold hover:underline transition-all group"
                             >
                                 <span className="material-symbols-outlined group-hover:-translate-x-1 transition-transform">arrow_back</span>
-                                Kembali ke Level-up
+                                Kembali ke News
                             </Link>
                         </div>
                     </article>

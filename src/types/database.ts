@@ -43,6 +43,7 @@ export interface Pengurus {
 
 export interface LevelUp {
     id: string
+    slug: string
     title: string
     content: string
     author_name: string

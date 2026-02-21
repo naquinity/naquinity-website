@@ -156,7 +156,7 @@ export default async function DashboardPage() {
                     color="green"
                 />
                 <StatsCard
-                    title="Artikel Level-up"
+                    title="Artikel news"
                     value={stats.totalArtikel}
                     label="Published"
                     icon="article"

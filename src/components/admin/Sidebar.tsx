@@ -24,7 +24,7 @@ export default function AdminSidebar({
         { href: '/dashboard/tentang', label: 'Tentang Kami', icon: 'info' },
         { href: '/dashboard/program', label: 'Program Kami', icon: 'calendar_month' },
         { href: '/dashboard/pencapaian', label: 'Pencapaian', icon: 'trophy' },
-        { href: '/dashboard/level-up', label: 'Level-up', icon: 'trending_up' },
+        { href: '/dashboard/news', label: 'Siaran Pers', icon: 'trending_up' },
         { href: '/dashboard/keuangan', label: 'Keuangan', icon: 'account_balance' },
         { href: '/dashboard/mahasiswa', label: 'Mahasiswa', icon: 'groups' },
         { href: '/dashboard/pj-km', label: 'PJ Matkul-KM', icon: 'school' },

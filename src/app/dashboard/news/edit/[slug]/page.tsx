@@ -8,14 +8,14 @@ const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 )
 
-export default async function EditLevelUpPage({ params }: { params: Promise<{ id: string }> }) {
-    const { id } = await params
+export default async function EditLevelUpPage({ params }: { params: Promise<{ slug: string }> }) {
+    const { slug } = await params
 
     // Fetch Data
     const { data: article } = await supabase
         .from('levelup')
         .select('*')
-        .eq('id', id)
+        .eq('slug', slug)
         .single()
 
     if (!article) {
@@ -30,8 +30,8 @@ export default async function EditLevelUpPage({ params }: { params: Promise<{ id
                     Dashboard
                 </Link>
                 <span className="material-symbols-outlined !text-sm">chevron_right</span>
-                <Link href="/dashboard/level-up" className="hover:text-primary">
-                    Level-up
+                <Link href="/dashboard/news" className="hover:text-primary">
+                    News
                 </Link>
                 <span className="material-symbols-outlined !text-sm">chevron_right</span>
                 <span className="font-bold text-slate-800">Edit Artikel</span>
@@ -48,7 +48,7 @@ export default async function EditLevelUpPage({ params }: { params: Promise<{ id
                     </p>
                 </div>
                 <Link
-                    href="/dashboard/level-up"
+                    href="/dashboard/news"
                     className="inline-flex items-center gap-2 px-4 py-2 border border-slate-200 bg-white text-slate-600 font-bold rounded-lg hover:bg-slate-50 transition"
                 >
                     <span className="material-symbols-outlined">close</span>

@@ -1,6 +1,6 @@
 'use client'
 
-import { createLevelUp } from '@/actions/level-up'
+import { createLevelUp } from '@/actions/news'
 import Link from 'next/link'
 import { useActionState, useState, useRef } from 'react'
 
@@ -53,8 +53,8 @@ export default function CreateLevelUpPage() {
                     Dashboard
                 </Link>
                 <span className="material-symbols-outlined !text-sm">chevron_right</span>
-                <Link href="/dashboard/level-up" className="hover:text-primary">
-                    Level-up
+                <Link href="/dashboard/news" className="hover:text-primary">
+                    news
                 </Link>
                 <span className="material-symbols-outlined !text-sm">chevron_right</span>
                 <span className="font-bold text-slate-800">Tambah Artikel</span>
@@ -71,7 +71,7 @@ export default function CreateLevelUpPage() {
                     </p>
                 </div>
                 <Link
-                    href="/dashboard/level-up"
+                    href="/dashboard/news"
                     className="inline-flex items-center gap-2 px-4 py-2 border border-slate-200 bg-white text-slate-600 font-bold rounded-lg hover:bg-slate-50 transition"
                 >
                     <span className="material-symbols-outlined">close</span>
@@ -249,7 +249,7 @@ export default function CreateLevelUpPage() {
 
                 <div className="flex items-center justify-end gap-3">
                     <Link
-                        href="/dashboard/level-up"
+                        href="/dashboard/news"
                         className="px-6 py-3 text-slate-600 font-bold text-sm hover:bg-slate-100 rounded-lg transition"
                     >
                         Batal

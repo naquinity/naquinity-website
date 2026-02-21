@@ -8,7 +8,7 @@ export default function Template({ children }: { children: React.ReactNode }) {
     const pathname = usePathname()
     const isDashboard = pathname?.startsWith('/dashboard') || pathname?.startsWith('/user/dashboard')
     const isAuth = pathname?.startsWith('/admin/login') || pathname?.startsWith('/admin/register') || pathname?.startsWith('/user/login') || pathname?.startsWith('/user/register')
-    const isLevelUp = pathname?.startsWith('/level-up')
+    const isLevelUp = pathname?.startsWith('/news')
     const isMahasiswa = pathname?.startsWith('/mahasiswa')
     const isPjKm = pathname?.startsWith('/pj-matkul-km')
 

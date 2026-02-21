@@ -80,10 +80,10 @@ export default function Footer() {
                         <ul className="space-y-3 text-sm text-slate-500">
                             <li>
                                 <Link
-                                    href="/level-up"
+                                    href="/news"
                                     className="hover:text-primary transition-colors"
                                 >
-                                    Level-up
+                                    Siaran Pers
                                 </Link>
                             </li>
                             <li>

@@ -1,18 +1,38 @@
 import Link from 'next/link'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@/lib/supabase/server'
 import MahasiswaListClient from './MahasiswaListClient'
+import Pagination from '@/components/ui/Pagination'
 
-const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-)
+export default async function MahasiswaPage({
+    searchParams,
+}: {
+    searchParams: Promise<{ page?: string; limit?: string }>
+}) {
+    const supabase = await createClient()
 
-export default async function MahasiswaPage() {
-    // Fetch all students (matching PHP query: order by name ASC)
-    const { data: mahasiswaList } = await supabase
+    const params = await searchParams
+    const page = Number(params?.page) || 1
+    const limitParam = params?.limit || '30'
+    const limit = limitParam === 'all' ? null : Number(limitParam)
+
+    // Fetch total count first
+    const { count } = await supabase
+        .from('mahasiswa')
+        .select('*', { count: 'exact', head: true })
+
+    // Build the query
+    let query = supabase
         .from('mahasiswa')
         .select('*')
         .order('name', { ascending: true })
+
+    if (limit !== null) {
+        query = query.range((page - 1) * limit, page * limit - 1)
+    }
+
+    const { data: mahasiswaList } = await query
+
+    const totalPages = limit !== null ? Math.ceil((count || 0) / limit) : 1
 
     return (
         <div className="max-w-6xl mx-auto">
@@ -43,8 +63,29 @@ export default async function MahasiswaPage() {
                 </Link>
             </div>
 
+            {/* Filters */}
+            <div className="flex justify-end mb-4">
+                <div className="flex items-center gap-2 text-sm">
+                    <span className="text-slate-500 font-medium whitespace-nowrap">Tampilkan:</span>
+                    <div className="flex bg-white border border-slate-200 rounded-lg overflow-hidden shadow-sm">
+                        {['30', '60', '90', '120', 'all'].map((val) => (
+                            <Link
+                                key={val}
+                                href={`/dashboard/mahasiswa?limit=${val}&page=1`}
+                                className={`px-4 py-2 font-medium transition-colors ${limitParam === val
+                                    ? 'bg-primary text-white'
+                                    : 'text-slate-600 hover:bg-slate-50 border-l border-slate-200 first:border-l-0'
+                                    }`}
+                            >
+                                {val === 'all' ? 'Semua' : val}
+                            </Link>
+                        ))}
+                    </div>
+                </div>
+            </div>
+
             {/* Table */}
-            <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+            <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden mb-8">
                 {!mahasiswaList || mahasiswaList.length === 0 ? (
                     <div className="text-center py-16">
                         <span className="material-symbols-outlined text-6xl text-slate-300 mb-4">groups</span>
@@ -113,11 +154,21 @@ export default async function MahasiswaPage() {
                             </table>
                         </div>
                         <div className="px-6 py-4 border-t border-slate-100 bg-slate-50">
-                            <p className="text-sm text-slate-500">Total: <strong>{mahasiswaList.length}</strong> mahasiswa</p>
+                            <p className="text-sm text-slate-500">Melihat: <strong>{mahasiswaList.length}</strong> dari total <strong>{count}</strong> mahasiswa</p>
                         </div>
                     </>
                 )}
             </div>
+
+            {/* Pagination Controls */}
+            {limit !== null && totalPages > 1 && (
+                <Pagination
+                    currentPage={page}
+                    totalPages={totalPages}
+                    baseUrl="/dashboard/mahasiswa"
+                    searchParams={{ limit }}
+                />
+            )}
         </div>
     )
 }

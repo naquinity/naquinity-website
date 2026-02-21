@@ -1,6 +1,6 @@
 'use client'
 
-import { updateLevelUp } from '@/actions/level-up'
+import { updateLevelUp } from '@/actions/news'
 import Link from 'next/link'
 import { useActionState, useState, useRef } from 'react'
 
@@ -226,8 +226,8 @@ export default function EditLevelUpForm({ article }: { article: any }) {
 
             <div className="flex items-center justify-end gap-3">
                 <Link
-                    href="/dashboard/level-up"
-                    className="px-6 py-3 text-slate-600 font-bold text-sm hover:bg-slate-100 rounded-lg transition"
+                    href="/dashboard/news"
+                    className="px-6 py-2 border border-slate-200 text-slate-600 font-bold rounded-xl hover:bg-slate-50 transition"
                 >
                     Batal
                 </Link>

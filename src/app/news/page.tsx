@@ -6,7 +6,7 @@ import type { LevelUp } from '@/types/database'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-    title: 'Level Up',
+    title: 'Siaran Pers',
 }
 
 export const dynamic = 'force-dynamic'
@@ -15,14 +15,14 @@ export const revalidate = 0
 
 async function getLevelUp() {
     const supabase = await createClient()
-    console.log('Fetching level-up articles...')
+    console.log('Fetching news articles...')
     const { data, error } = await supabase
         .from('levelup')
         .select('*')
         .order('created_at', { ascending: false })
 
     if (error) {
-        console.error('Error fetching level-up:', error)
+        console.error('Error fetching news:', error)
     }
 
     return (data as LevelUp[]) || []
@@ -47,9 +47,9 @@ export default async function LevelUpPage() {
                     />
                     <div className="absolute inset-0 bg-gradient-to-b from-slate-900/50 to-slate-900/80" />
                     <div className="relative max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
-                        <h1 className="text-4xl md:text-5xl font-black mb-4">Level-up</h1>
+                        <h1 className="text-4xl md:text-5xl font-black mb-4">Siaran Pers</h1>
                         <p className="text-xl text-slate-300">
-                            Konten edukatif untuk pengembangan diri dan skill Anda
+                            Berita terbaru seputar Naquinity
                         </p>
                     </div>
                 </div>
@@ -109,7 +109,7 @@ export default async function LevelUpPage() {
 
                                         <div className="pt-4 border-t border-slate-100">
                                             <div className="pt-4 border-t border-slate-100">
-                                                <Link href={`/level-up/${article.id}`} className="text-primary font-semibold text-sm hover:underline cursor-pointer">
+                                                <Link href={`/news/${article.slug}`} className="text-primary font-semibold text-sm hover:underline cursor-pointer">
                                                     Baca selengkapnya →
                                                 </Link>
                                             </div>

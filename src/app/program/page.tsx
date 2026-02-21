@@ -5,27 +5,49 @@ import type { Program } from '@/types/database'
 import { format } from 'date-fns'
 import { Metadata } from 'next'
 import ProgramCard from './ProgramCard'
+import Pagination from '@/components/ui/Pagination'
 
 export const metadata: Metadata = {
     title: 'Program',
 }
 
-async function getPrograms() {
+const ITEMS_PER_PAGE = 18
+
+async function getPrograms(page: number = 1) {
     const supabase = await createClient()
+
+    // Get total count
+    const { count } = await supabase
+        .from('program')
+        .select('*', { count: 'exact', head: true })
+
+    // Get paginated data
     const { data, error } = await supabase
         .from('program')
         .select('*')
         .order('start_date', { ascending: false })
+        .range((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE - 1)
 
     if (error) {
         console.error('Error fetching programs:', error)
     }
 
-    return (data as Program[]) || []
+    return {
+        data: (data as Program[]) || [],
+        totalPages: Math.ceil((count || 0) / ITEMS_PER_PAGE),
+        currentPage: page,
+        totalItems: count || 0
+    }
 }
 
-export default async function ProgramPage() {
-    const programs = await getPrograms()
+export default async function ProgramPage({
+    searchParams,
+}: {
+    searchParams: Promise<{ page?: string }>
+}) {
+    const params = await searchParams
+    const page = Number(params?.page) || 1
+    const { data: programs, totalPages, currentPage } = await getPrograms(page)
 
     return (
         <div className="font-display">
@@ -65,11 +87,19 @@ export default async function ProgramPage() {
                             <p className="text-slate-500">Program akan ditampilkan di sini</p>
                         </div>
                     ) : (
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {programs.map((program) => (
-                                <ProgramCard key={program.id} program={program} />
-                            ))}
-                        </div>
+                        <>
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+                                {programs.map((program) => (
+                                    <ProgramCard key={program.id} program={program} />
+                                ))}
+                            </div>
+
+                            <Pagination
+                                currentPage={currentPage}
+                                totalPages={totalPages}
+                                baseUrl="/program"
+                            />
+                        </>
                     )}
                 </div>
             </PublicLayout>

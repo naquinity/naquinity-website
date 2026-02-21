@@ -22,21 +22,21 @@ export default async function LevelUpPage() {
                     Dashboard
                 </Link>
                 <span className="material-symbols-outlined !text-sm">chevron_right</span>
-                <span className="font-bold text-slate-800">Level-up</span>
+                <span className="font-bold text-slate-800">news</span>
             </div>
 
             {/* Page Header */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
                 <div>
-                    <h2 className="text-3xl font-bold text-primary mb-2">Kelola Level-up</h2>
+                    <h2 className="text-3xl font-bold text-primary mb-2">Kelola news</h2>
                     <p className="text-slate-600">Artikel dan konten edukatif untuk pengembangan diri</p>
-                    <a href="/level-up" target="_blank"
+                    <a href="/news" target="_blank"
                         className="mt-2 inline-flex items-center gap-2 text-sm text-primary font-semibold hover:underline">
                         <span className="material-symbols-outlined !text-base">open_in_new</span>
-                        Lihat halaman Level-up
+                        Lihat halaman news
                     </a>
                 </div>
-                <Link href="/dashboard/level-up/create"
+                <Link href="/dashboard/news/create"
                     className="flex items-center gap-2 bg-primary hover:bg-primary-hover text-white px-5 py-2.5 rounded-lg font-bold text-sm transition-all shadow-lg shadow-primary/20">
                     <span className="material-symbols-outlined">add</span>
                     <span>Tambah Artikel</span>
@@ -50,7 +50,7 @@ export default async function LevelUpPage() {
                         <span className="material-symbols-outlined text-6xl text-slate-300 mb-4">article</span>
                         <h3 className="text-xl font-bold text-slate-600 mb-2">Belum ada artikel</h3>
                         <p className="text-slate-500 mb-6">Tambahkan artikel pertama Anda</p>
-                        <Link href="/dashboard/level-up/create"
+                        <Link href="/dashboard/news/create"
                             className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white font-bold rounded-lg hover:bg-primary-hover transition">
                             <span className="material-symbols-outlined">add</span>
                             Tambah Artikel
@@ -91,7 +91,7 @@ export default async function LevelUpPage() {
                                             </td>
                                             <td className="px-6 py-4 text-right">
                                                 <div className="flex items-center justify-end gap-2">
-                                                    <Link href={`/dashboard/level-up/edit/${article.id}`}
+                                                    <Link href={`/dashboard/news/edit/${article.slug}`}
                                                         className="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-primary hover:bg-primary/5 transition-all"
                                                         title="Edit">
                                                         <span className="material-symbols-outlined !text-lg">edit</span>
