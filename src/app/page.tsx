@@ -15,7 +15,7 @@ async function getHomeData() {
   const [tentangRes, programsRes, mahasiswaRes, maskotRes, totalMahasiswaRes] = await Promise.all([
     supabase.from('tentang_kami').select('*').limit(1).single(),
     supabase.from('program').select('*').order('created_at', { ascending: false }).limit(4),
-    supabase.from('mahasiswa').select('*').order('created_at', { ascending: false }).limit(4),
+    supabase.from('mahasiswa').select('*').order('name', { ascending: true }).limit(4),
     supabase.from('maskot').select('*').limit(1).single(),
     supabase.from('mahasiswa').select('*', { count: 'exact', head: true }),
   ])

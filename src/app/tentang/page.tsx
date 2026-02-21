@@ -171,7 +171,7 @@ export default async function TentangPage() {
                                         href="/mahasiswa"
                                         className="px-8 py-4 bg-white text-primary font-bold rounded-xl hover:bg-blue-50 transition shadow-lg"
                                     >
-                                        Lihat Anggota
+                                        Daftar Mahasiswa
                                     </Link>
                                     <a
                                         href="https://contact.naquinity.web.id/"

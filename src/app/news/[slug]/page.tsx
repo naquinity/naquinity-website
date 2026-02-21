@@ -49,9 +49,9 @@ export default async function LevelUpDetailPage({ params }: { params: Params }) 
     return (
         <div className="font-display">
             <PublicLayout>
-                <div className="max-w-[1000px] mx-auto px-4 sm:px-6 lg:px-8 py-12 pt-32">
+                <div className="max-w-[1000px] mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
                     {/* Breadcrumb */}
-                    <div className="flex items-center gap-2 text-sm text-slate-500 mb-8">
+                    <div className="flex items-center gap-2 text-sm text-slate-500 mb-6 md:mb-8">
                         <Link href="/" className="hover:text-primary transition-colors">Beranda</Link>
                         <span className="material-symbols-outlined !text-sm">chevron_right</span>
                         <Link href="/news" className="hover:text-primary transition-colors">News</Link>

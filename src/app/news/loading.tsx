@@ -3,7 +3,7 @@ import PublicLayout from '@/components/layout/PublicLayout'
 export default function Loading() {
     return (
         <PublicLayout>
-            <div className="max-w-[1000px] mx-auto px-4 sm:px-6 lg:px-8 py-12 pt-32">
+            <div className="max-w-[1000px] mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
                 <div className="animate-pulse">
                     {/* Breadcrumb Skeleton */}
                     <div className="flex items-center gap-2 mb-8">
