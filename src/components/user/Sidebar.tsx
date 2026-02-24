@@ -27,6 +27,7 @@ export default function UserSidebar({
         { href: '/user/dashboard/mahasiswa', label: 'Mahasiswa', icon: 'groups' },
         { href: '/user/dashboard/pencapaian', label: 'Pencapaian', icon: 'emoji_events' },
         { href: '/user/dashboard/pj-km', label: 'PJ Matkul-KM', icon: 'school' },
+        { href: '/user/dashboard/qr-generator', label: 'QR Generator', icon: 'qr_code_2' },
     ]
 
     const transactionItems = [

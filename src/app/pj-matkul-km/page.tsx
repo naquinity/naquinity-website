@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server'
 import type { PjKm } from '@/types/database'
 import { Metadata } from 'next'
 import PjKmCard from './PjKmCard'
+import ScrollableContainer from '@/components/ui/ScrollableContainer'
 
 export const metadata: Metadata = {
     title: 'PJ Matkul & KM',
@@ -92,18 +93,28 @@ export default async function PjMatkulKmPage({
                 <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-16">
                     {/* Filter */}
                     <div className="mb-8 flex justify-center">
-                        <div className="flex flex-wrap justify-center items-center gap-2 bg-white rounded-xl border border-slate-200 p-2 shadow-sm">
-                            <span className="text-sm font-bold text-slate-700 px-2">Pilih Semester:</span>
-                            {[1, 2, 3, 4, 5, 6, 7, 8].map((sem) => (
-                                <a
-                                    key={sem}
-                                    href={`/pj-matkul-km?semester=${sem}`}
-                                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${selectedSemester === sem ? 'bg-primary text-white' : 'text-slate-600 hover:bg-slate-100 hover:text-primary'
-                                        }`}
-                                >
-                                    Sem {sem}
-                                </a>
-                            ))}
+                        <div className="flex flex-col sm:flex-row sm:items-center gap-4 bg-white rounded-2xl shadow-sm border border-slate-200 p-4 max-w-full overflow-hidden w-full sm:w-auto">
+                            <span className="text-sm font-bold text-slate-700 whitespace-nowrap px-2">
+                                Pilih Semester:
+                            </span>
+                            <div className="flex-1 min-w-0">
+                                <ScrollableContainer>
+                                    <div className="flex gap-2 sm:gap-3 min-w-max py-1 px-1">
+                                        {[1, 2, 3, 4, 5, 6, 7, 8].map((sem) => (
+                                            <a
+                                                key={sem}
+                                                href={`/pj-matkul-km?semester=${sem}`}
+                                                className={`px-5 py-2.5 rounded-xl text-sm font-semibold transition-all whitespace-nowrap ${selectedSemester === sem
+                                                    ? 'bg-primary text-white shadow-md shadow-primary/20 scale-105'
+                                                    : 'bg-slate-50 text-slate-600 hover:bg-slate-100 hover:text-slate-900 border border-slate-200/60'
+                                                    }`}
+                                            >
+                                                Semester {sem}
+                                            </a>
+                                        ))}
+                                    </div>
+                                </ScrollableContainer>
+                            </div>
                         </div>
                     </div>
 
